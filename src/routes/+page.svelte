@@ -1,4 +1,6 @@
 <script>
+	import logo from '$lib/images/LOGO.png'
+	import homepage_art from '$lib/images/HOMEPAGE ART.png'
 </script>
 
 <svelte:head>
@@ -7,10 +9,10 @@
 </svelte:head>
 
 <h10> </h10>  
-<div class="head_section"><img src="/src/lib/images/LOGO.png" alt="logo" width="203" height="105"></div>
+<div class="head_section"><img src={logo} alt="logo" width="203" height="105"></div>
 
 <div class="main_section">	
-<p class="homepage_logo"><img src="/src/lib/images/HOMEPAGE ART.png" alt="homepage art"width="654" height="267"></p>  
+<p class="homepage_logo"><img src={homepage_art} alt="homepage art"width="654" height="267"></p>  
 
 <h1 style="font-size:60px;">Resume Wizard</h1>
 <!-- <h2>Whips up a resume via magic with ease</h2> -->
