@@ -1,7 +1,7 @@
 //npm install --save lodash
 //npm install --save @types/lodash
 const _ = require('lodash');
-const {readFile} = require('fs/promises');
+const {readFile} = require('fs').promises;
 
 // import template from .tex file
 readFile('./test_template.tex', 'utf8')
