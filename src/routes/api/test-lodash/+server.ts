@@ -11,6 +11,7 @@ export async function GET() {
 		let compiled = _.template(latexTemplate);
 		let compiledTemplate = compiled(variableMap);
 		console.log(compiledTemplate);
+        return(compiledTemplate);
 	} catch (error) {
 		console.error(error);
 	}
