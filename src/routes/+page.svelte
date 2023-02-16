@@ -17,7 +17,7 @@
 <h1 style="font-size:60px;">Resume Wizard</h1>
 <!-- <h2>Whips up a resume via magic with ease</h2> -->
 <!-- <button class="button button1" on:click={() => push('/info')}>Start</button> -->
-<a href="/info"><button>Start</button></a>
+<!-- <a href="/info"><button>Start</button></a> -->
 </div>
 
 <!-- <section>
