@@ -1,5 +1,6 @@
 <script lang='ts'>
 	import Header from "$lib/components/Header.svelte";
+	import Login from "$lib/components/Login.svelte";
     let completion = "";
 	let completion_loading = false;
 	let error = false;
@@ -19,6 +20,8 @@
 </script>
 
 <Header />
+<Login />
+
 <h1>Info page</h1>
 <button on:click={getCompletion}>Get Completion</button>
 {#if completion_loading}
