@@ -1,5 +1,6 @@
 <script>
 	import { currentUser, pb } from '$lib/pocketbase';
+	import UserInfo from '$lib/components/UserInfo.svelte';
 
     // For some reason TypeScript syntax didn't work here
     // TODO: Figure out why
@@ -23,6 +24,7 @@
             error = "";
         } catch (e) {
             console.error(e);
+            // @ts-ignore
             error = JSON.stringify(e.data);
         }
 	}
@@ -42,6 +44,7 @@
 		} catch (e) {
             // TODO: Handle error
 			console.error(e);
+            // @ts-ignore
             error = JSON.stringify(e.data);
 		}
 	}
@@ -54,6 +57,7 @@
 {#if $currentUser}
 	<h1>Welcome, {$currentUser.username}!</h1>
     <button on:click={signOut}>Sign Out</button>
+	<UserInfo />
 {:else}
 	<h1>Welcome, Guest!</h1>
 	<form on:submit|preventDefault>

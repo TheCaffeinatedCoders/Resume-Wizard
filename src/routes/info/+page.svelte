@@ -1,7 +1,7 @@
-<script lang='ts'>
-	import Header from "$lib/components/Header.svelte";
-	import Login from "$lib/components/Login.svelte";
-    let completion = "";
+<script lang="ts">
+	import Header from '$lib/components/Header.svelte';
+	import Login from '$lib/components/Login.svelte';
+	let completion = '';
 	let completion_loading = false;
 	let error = false;
 
@@ -17,10 +17,10 @@
 		}
 		completion_loading = false;
 	}
+	// Check if user is logged in
 </script>
 
 <Header />
-<Login />
 
 <h1>Info page</h1>
 <button on:click={getCompletion}>Get Completion</button>
@@ -28,9 +28,12 @@
 	<p>Loading...</p>
 {:else}
 	{#if error}
-		<p>An error has occurred. Make sure you have set your API key with `export OPENAI_API_KEY='key'`</p>
+		<p>
+			An error has occurred. Make sure you have set your API key with `export OPENAI_API_KEY='key'`
+		</p>
 	{/if}
-	{#if completion !== ""}
+	{#if completion !== ''}
 		<p>{JSON.stringify(completion)}</p>
 	{/if}
 {/if}
+<Login />
