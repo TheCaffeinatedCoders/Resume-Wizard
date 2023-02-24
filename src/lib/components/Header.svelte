@@ -8,9 +8,9 @@
 			<img src={logo} alt="LOGO" width="203" height="105" />
 		</div>
 		<nav class="site-links">
-			<a href="#">Home</a>
-			<a href="#">About</a>
-			<a href="#">Contact</a>
+			<a href="/">Home</a>
+			<a href="/">About</a>
+			<a href="/">Contact</a>
 		</nav>
 	</header>
 </div>
