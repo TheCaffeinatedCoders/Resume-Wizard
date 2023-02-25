@@ -12,6 +12,7 @@ specifiers:
   eslint-plugin-svelte3: ^4.0.0
   lodash: ^4.17.21
   openai: ^3.1.0
+  pocketbase: ^0.10.2
   prettier: ^2.8.0
   prettier-plugin-svelte: ^2.8.1
   svelte: ^3.54.0
@@ -23,6 +24,7 @@ specifiers:
 dependencies:
   lodash: 4.17.21
   openai: 3.1.0
+  pocketbase: 0.10.2
 
 devDependencies:
   '@fontsource/fira-mono': 4.5.10
@@ -1535,6 +1537,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dev: true
+
+  /pocketbase/0.10.2:
+    resolution: {integrity: sha512-728aVaPLhSwOyEqZ4+GJfqg1SHUAyokvErsOksxauvOXiRE/QSCn8s6bW1/KyU3NGqz248eBjUQY3aLwTV/CcA==}
+    dev: false
 
   /postcss/8.4.20:
     resolution: {integrity: sha512-6Q04AXR1212bXr5fh03u8aAwbLxAQNGQ/Q1LNa0VfOI06ZAlhPHtQvE4OIdpj4kLThXilalPnmDSOD65DcHt+g==}
