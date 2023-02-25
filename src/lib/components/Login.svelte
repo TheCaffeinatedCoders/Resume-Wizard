@@ -64,10 +64,22 @@
 		<input bind:value={username} placeholder="Username" type="text" />
 		<input bind:value={password} placeholder="Password" type="password" />
 	</form>
-	<button on:click={signUp}>Sign Up</button>
-	<button on:click={login}>Login</button>
+	<div class="login_buttons">
+		<button on:click={signUp}>Sign Up</button>
+		<button on:click={login}>Login</button>
+	</div>
 {/if}
 <!-- If errror -->
 {#if error}
     <p>{error}</p>
 {/if}
+
+<style>
+	.login_buttons {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-top: 1rem;
+		gap: 2rem;
+	}
+</style>
