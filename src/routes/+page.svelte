@@ -17,7 +17,7 @@
 		<Login />
 	{:else}
 		<h1>Welcome, {$currentUser.username}!</h1>
-		<Profile />
+		<!-- <Profile /> -->
 	{/if}
 </div>
 
