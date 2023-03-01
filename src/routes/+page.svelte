@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { currentUser } from '$lib/pocketbase';
 
-	import Home from '$lib/components/Home.svelte';
+	import Mainpage from '$lib/components/Mainpage.svelte';
 	import Login from '$lib/components/Login.svelte';
+
+	import { goto } from '$app/navigation';
+
+
 	import Profile from '$lib/components/Profile.svelte';
 </script>
 
@@ -13,10 +17,14 @@
 
 <div class="homecontainer">
 	{#if !$currentUser}
-		<Home />
+		<Mainpage />
 		<Login />
 	{:else}
+		NavigationPreloadManager()
 		<h1>Welcome, {$currentUser.username}!</h1>
+		<a href="/home">click me to go homepage</a>
+
+
 		<!-- <Profile /> -->
 	{/if}
 </div>
