@@ -17,6 +17,7 @@
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
 		"@playwright/test": "^1.28.1",
+		"@sveltejs/adapter-node": "^1.2.0",
 		"@sveltejs/adapter-vercel": "^1.0.0",
 		"@sveltejs/kit": "^1.0.0",
 		"@types/cookie": "^0.5.1",
@@ -38,6 +39,7 @@
 	"dependencies": {
 		"fs": "0.0.1-security",
 		"lodash": "^4.17.21",
-		"openai": "^3.1.0"
+		"openai": "^3.1.0",
+		"pocketbase": "^0.10.2"
 	}
 }
