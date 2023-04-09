@@ -5,7 +5,7 @@ use std::env;
 
 #[get("/api/greet/{name}")] // <- define path parameters
 async fn greet(name: web::Path<String>) -> impl Responder {
-    format!("Hello {name}!")
+    format!("Hello, {name}!")
 }
 
 #[get("api/AItest")]
