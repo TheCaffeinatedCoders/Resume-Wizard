@@ -6,7 +6,7 @@ Make sure to have a .env file set with an openAI API key. Check the discord to f
 The .env file should live in backend/.env with contents
 
 '''
-export OPENAI_SECRET_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+export OPENAI_API_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 '''
 
 To deploy the api, navigate to the backend directory

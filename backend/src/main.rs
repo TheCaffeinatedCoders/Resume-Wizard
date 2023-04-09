@@ -11,7 +11,7 @@ async fn greet(name: web::Path<String>) -> impl Responder {
 #[get("api/AItest")]
 async fn ai_test() -> impl Responder {
     // Grab openai api key secret
-    let openai_secret_key = env::var("OPENAI_SECRET_KEY").unwrap_or_else(|_| {
+    let openai_secret_key = env::var("OPENAI_API_KEY").unwrap_or_else(|_| {
         panic!("OPENAI_SECRET_KEY not set in enviroment");
     });
     let openai_client = Client::new().with_api_key(openai_secret_key);
