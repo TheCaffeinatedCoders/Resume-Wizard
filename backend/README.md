@@ -1,5 +1,14 @@
 # Resume Wizard Backend API
 
+## Current Routes
+127.0.0.1:8080/api/greet/Carson
+
+Prints hello to the name given in path
+
+127.0.0.1:8080/api/AItest
+
+Prints a test poem about a resume wizard demonstrating the AI completion request works
+
 ### Build / Deploy instructions
 Make sure to have a .env file set with an openAI API key. Check the discord to find the key if you don't have one on hand
 
