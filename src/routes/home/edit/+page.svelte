@@ -1,7 +1,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js">
 	import { Stepper, Step } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
-	let date = new Date();
+
+	let startDate = new Date();
+	let endDate = new Date();
+
+	let yes = false;
 </script>
 
 <div class="body">
@@ -58,30 +62,55 @@
 				<svelte:fragment slot="header">Education</svelte:fragment>
 				<div class="forms">
 					<label class="label">
-						<span>What was your role?</span>
+						<span>School name</span>
 						<input type="text" placeholder="Input" class="input variant-form-material" />
 					</label>
 					<label>
-						<span>Where did you work?</span>
+						<span>School Location</span>
 						<input type="text" placeholder="Input" class="input variant-form-material" />
 					</label>
 					<label class="label">
-						<span>Location</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
+						<span>Degree</span>
+						<select class="select">
+							<option value="1">Bachelor of Arts</option>
+							<option value="2">Bacherlor of Science</option>
+							<option value="3">BBA</option>
+							<option value="4">High School Diiploma</option>
+							<option value="5">GED</option>
+							<option value="6">Associate of Arts</option>
+							<option value="7">Associate of Science</option>
+							<option value="8">Associate of Applied Science</option>
+							<option value="9">Master of Arts</option>
+							<option value="10">Master of Science</option>
+							<option value="11">Master of Business Administration</option>
+							<option value="12">J.D.</option>
+							<option value="13">M.D.</option>
+							<option value="14">Ph.D.</option>
+							<option value="15">Enter a different degree</option>
+						</select>
 					</label>
 
 					<div class="formED">
 						<label class="label">
 							<span>Start Date</span>
-							<DateInput bind:value={date} />
+							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
 						</label>
 						<label class="label">
 							<span>End Date</span>
-							<DateInput bind:value={date} />
+							<DateInput format="yyyy/MM/dd" disabled={yes} bind:value={endDate} />
 						</label>
-						<div>
-							<input type="checkbox" class="checkbox" />
-							<p>I'm currently working here</p>
+						<div class="checkboxHeight">
+							<!-- <input type="checkbox" id="endDate" name="endDate" /> -->
+							<label for="endDate">
+								<input
+									type="checkbox"
+									id="endDate"
+									name="endDate"
+									style="margin-right: 0.5rem"
+									bind:checked={yes}
+								/>
+								I'm currently working here
+							</label>
 						</div>
 					</div>
 
@@ -189,6 +218,10 @@
 </div>
 
 <style>
+	.checkboxHeight {
+		margin-top: 2rem;
+	}
+
 	.forms {
 		margin: 2rem 2rem;
 	}
@@ -201,10 +234,6 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 1rem;
-	}
-
-	.formED > div {
-		display: inline;
 	}
 
 	h1 {
