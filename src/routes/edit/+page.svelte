@@ -2,6 +2,8 @@
 	import { Stepper, Step } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
 
+	import gptImage from '$lib/images/ChatGPT_logo.svg.webp';
+
 	let startDate = new Date();
 	let endDate = new Date();
 
@@ -60,6 +62,7 @@
 			</Step>
 			<Step>
 				<svelte:fragment slot="header">Education</svelte:fragment>
+
 				<div class="forms">
 					<label class="label">
 						<span>School name</span>
@@ -112,6 +115,13 @@
 								I'm currently working here
 							</label>
 						</div>
+					</div>
+
+					<div class="textarea-container">
+						<textarea class="textarea" rows="4" placeholder="Enter some long form content." />
+						<button class="chatgpt-button">
+							<img src={gptImage} alt="ChatGPT" />
+						</button>
 					</div>
 
 					<!-- <div date-rangepicker class="flex items-center">
@@ -242,11 +252,11 @@
 	}
 
 	.body {
-		@apply text-error-900;
+		/* @apply text-error-900;
+		background-color: hsla(0, 100%, 50%, 0.5); */
 
 		padding: 2rem;
 		height: 100vh;
-		background-color: hsla(0, 100%, 50%, 0.5);
 		background-image: radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 0%, hsla(189, 85%, 82%, 1) 0px, transparent 50%),
 			radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 1) 0px, transparent 50%),
@@ -254,5 +264,40 @@
 			radial-gradient(at 0% 100%, hsla(14, 53%, 78%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 100%, hsla(240, 62%, 76%, 1) 0px, transparent 50%),
 			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
+	}
+
+	.textarea-container {
+		position: relative;
+		display: inline-block;
+	}
+
+	.textarea {
+		display: block;
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+	.chatgpt-button {
+		display: inline-block;
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		z-index: 1;
+	}
+
+	.chatgpt-button img {
+		width: 40px;
+		height: 40px;
+		display: block;
+		transition: 0.3s;
+		opacity: 0.8;
+	}
+
+	.chatgpt-button:hover img {
+		opacity: 1;
 	}
 </style>
