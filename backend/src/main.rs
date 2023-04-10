@@ -18,7 +18,7 @@ async fn ai_test() -> impl Responder {
     let request = CreateCompletionRequestArgs::default()
         .model("text-davinci-003") // Model argument
         .prompt("Write me a poem about a wizard giving resume advice to a student unicorn") // Prompt argument
-        .max_tokens(40_u16) // max_tokens argument
+        .max_tokens(100_u16) // max_tokens argument
         .build()
         .unwrap();
     let response = openai_client
