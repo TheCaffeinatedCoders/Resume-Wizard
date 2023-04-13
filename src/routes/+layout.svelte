@@ -131,9 +131,32 @@
 	</svelte:fragment>
 
 	<!-- Router Slot -->
-	<slot />
+	<div id="main">
+		<slot />
+	</div>
 	<!-- ---- / ---- -->
 </AppShell>
 
 <style>
+	/* Tailwind CSS */
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	/* Custom CSS */
+	h2 {
+		font-size: 2rem;
+	}
+
+	#main {
+		padding: 2rem;
+		/* height: 100vh; */
+		background-image: radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
+			radial-gradient(at 80% 0%, hsla(189, 85%, 82%, 1) 0px, transparent 50%),
+			radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 1) 0px, transparent 50%),
+			radial-gradient(at 79% 50%, hsla(340, 28%, 82%, 1) 0px, transparent 50%),
+			radial-gradient(at 0% 100%, hsla(14, 53%, 78%, 1) 0px, transparent 50%),
+			radial-gradient(at 80% 100%, hsla(240, 62%, 76%, 1) 0px, transparent 50%),
+			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
+	}
 </style>
