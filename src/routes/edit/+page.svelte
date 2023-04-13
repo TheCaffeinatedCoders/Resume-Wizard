@@ -6,8 +6,14 @@
 
 	let startDate = new Date();
 	let endDate = new Date();
-
 	let yes = false;
+
+	let selectedDegree = '1';
+	let showCustomDegree = false;
+
+	$: {
+		showCustomDegree = selectedDegree == '15';
+	}
 </script>
 
 <div class="body">
@@ -60,40 +66,50 @@
 					</label>
 				</div>
 			</Step>
+
 			<Step>
 				<svelte:fragment slot="header">Education</svelte:fragment>
 
 				<div class="forms">
-					<label class="label">
-						<span>School name</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label>
-						<span>School Location</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label class="label">
-						<span>Degree</span>
-						<select class="select">
-							<option value="1">Bachelor of Arts</option>
-							<option value="2">Bacherlor of Science</option>
-							<option value="3">BBA</option>
-							<option value="4">High School Diiploma</option>
-							<option value="5">GED</option>
-							<option value="6">Associate of Arts</option>
-							<option value="7">Associate of Science</option>
-							<option value="8">Associate of Applied Science</option>
-							<option value="9">Master of Arts</option>
-							<option value="10">Master of Science</option>
-							<option value="11">Master of Business Administration</option>
-							<option value="12">J.D.</option>
-							<option value="13">M.D.</option>
-							<option value="14">Ph.D.</option>
-							<option value="15">Enter a different degree</option>
-						</select>
-					</label>
+					<div class="formEDBasic">
+						<label class="label">
+							<span>School name</span>
+							<input type="text" placeholder="Input" class="input variant-form-material" />
+						</label>
+						<label class="label">
+							<span>School Location</span>
+							<input type="text" placeholder="Input" class="input variant-form-material" />
+						</label>
+						<label class="label">
+							<span>Degree</span>
+							<select class="select" bind:value={selectedDegree}>
+								console.log(selectedDegree);
+								<option value="1">Bachelor of Arts</option>
+								<option value="2">Bacherlor of Science</option>
+								<option value="3">BBA</option>
+								<option value="4">High School Diiploma</option>
+								<option value="5">GED</option>
+								<option value="6">Associate of Arts</option>
+								<option value="7">Associate of Science</option>
+								<option value="8">Associate of Applied Science</option>
+								<option value="9">Master of Arts</option>
+								<option value="10">Master of Science</option>
+								<option value="11">Master of Business Administration</option>
+								<option value="12">J.D.</option>
+								<option value="13">M.D.</option>
+								<option value="14">Ph.D.</option>
+								<option value="15">Enter a different degree</option>
+							</select>
+						</label>
+						{#if showCustomDegree}
+							<label class="label">
+								<span>Enter your degree</span>
+								<input type="text" placeholder="Input" class="input variant-form-material" />
+							</label>
+						{/if}
+					</div>
 
-					<div class="formED">
+					<div class="formEDDate">
 						<label class="label">
 							<span>Start Date</span>
 							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
@@ -233,17 +249,24 @@
 	}
 
 	.forms {
-		margin: 2rem 2rem;
+		margin: 4rem 2rem;
 	}
 
-	.forms > label {
-		margin: 2rem 0;
+	.label {
+		margin: 1rem 0;
 	}
 
-	.formED {
+	.formEDBasic {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		margin-bottom: 2rem;
+	}
+
+	.formEDDate {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		gap: 1rem;
+		gap: 2rem;
 	}
 
 	h1 {
@@ -255,7 +278,7 @@
 		/* @apply text-error-900;
 		background-color: hsla(0, 100%, 50%, 0.5); */
 
-		padding: 2rem;
+		/* padding: 2rem;
 		height: 100vh;
 		background-image: radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 0%, hsla(189, 85%, 82%, 1) 0px, transparent 50%),
@@ -263,7 +286,7 @@
 			radial-gradient(at 79% 50%, hsla(340, 28%, 82%, 1) 0px, transparent 50%),
 			radial-gradient(at 0% 100%, hsla(14, 53%, 78%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 100%, hsla(240, 62%, 76%, 1) 0px, transparent 50%),
-			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
+			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%); */
 	}
 
 	.textarea-container {
