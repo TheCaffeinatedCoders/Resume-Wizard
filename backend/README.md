@@ -1,20 +1,21 @@
 
 # Table of Contents
 
-1.  [Resume Wizard Backend API](#org733a005)
-    1.  [Current Routes](#org7b67222)
-    2.  [Build / Deploy instructions](#org06c5aee)
-    3.  [Functions](#org3f26c0e)
-        1.  [User Authentication](#org4fa7067)
+1.  [Resume Wizard Backend API](#org8a40a20)
+    1.  [Current Routes](#org4f8f3f7)
+    2.  [Build / Deploy instructions](#org270db03)
+    3.  [Functions](#orgdfe30ac)
+        1.  [User Authentication](#orga7fe17a)
+        2.  [Rust Pocketbse<sub>sdk</sub> crate notes](#org1ece642)
 
 
 
-<a id="org733a005"></a>
+<a id="org8a40a20"></a>
 
 # Resume Wizard Backend API
 
 
-<a id="org7b67222"></a>
+<a id="org4f8f3f7"></a>
 
 ## Current Routes
 
@@ -27,7 +28,7 @@ Prints hello to the name given in path
 Prints a test poem about a resume wizard demonstrating the AI completion request works
 
 
-<a id="org06c5aee"></a>
+<a id="org270db03"></a>
 
 ## Build / Deploy instructions
 
@@ -52,12 +53,12 @@ Cargo is a Rust all in one tool for managing projects. Running the backend requi
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 
-<a id="org3f26c0e"></a>
+<a id="orgdfe30ac"></a>
 
 ## TODO Functions
 
 
-<a id="org4fa7067"></a>
+<a id="orga7fe17a"></a>
 
 ### User Authentication
 
@@ -76,4 +77,134 @@ Cargo is a Rust all in one tool for managing projects. Running the backend requi
 4.  /api/auth/verify
 
     This API endpoint will handle token verification. When the front-end sends a request to a protected endpoint, it will include the user&rsquo;s token in the request headers. The protected endpoint will then send a request to this endpoint to verify the token. If the token is valid, the protected endpoint will continue with its operation. If the token is invalid or has expired, the protected endpoint will return an error message.
+
+
+<a id="org1ece642"></a>
+
+### Rust Pocketbse<sub>sdk</sub> crate notes
+
+    
+    // Models to import and use
+    use pocketbase_sdk::client::Client;
+    use pocketbase_sdk::user::UserTypes;
+    use pocketbase_sdk::records::operations::{
+      list, view, delete, create
+    };
+    
+    
+    pub struct PocketbaseClient {
+        pub base_url: Url,
+        pub user: Option<User>,
+    }
+    impl PocketbaseClient {
+    
+        // PocketbaseClient::new(raw_url) -> (PocketbaseClient or Error)
+        pub fn new<'a>(raw_url: &'a str) -> Result<Client, Box<dyn Error>>
+    
+        // auth_via_email(email, password, usertype) -> (OK or Error)
+            pub aync auth_via_email<'a>(
+                &mut self,
+                email: String,
+                password: String,
+                usertype: UserTypes
+            ) -> Result<(), Box<dyn Error>>
+    
+        // PocketbaseClient::get(path, params) -> (Response or Error)
+        pub async fn get(
+            &self,
+            path: String,
+            params: Option<&[(&str, &str)]>
+        ) -> Result<Response, Box<dyn Error>>
+    
+        pub async fn post<T: Serialize + Sized>(
+            &self,
+            path: String,
+            body: &T
+        ) -> Result<Response, Box<dyn Error>>
+    
+        pub async fn patch<T: Serialize + Sized>(
+            &self,
+            path: String,
+            body: &T
+        ) -> Result<Response, Box<dyn Error>>
+    
+        pub async fn delete(
+            &self,
+            path: String,
+            params: Option<&[(&str, &str)]>
+        ) -> Result<Response, Box<dyn Error>>
+    }
+    
+    // Pocketbase_SDK Readme example
+    
+    // Post structure definition. Table dependent structure. Double check syntax for using dates as string, or if there is a date structure included
+    #[derive(Serialize, Deserialize, Debug)]
+    struct Post {
+      id: String,
+      title: String,
+      content: String,
+      created: String,
+      updated: String,
+      author: String,
+    }
+    
+    #[tokio::main]
+    async fn main() -> Result<(), Box<dyn std::error::Error>> {
+        /* new client + authentication */
+        let mut client = Client::new("http://localhost:8090/api/").unwrap();
+        let auth = client.auth_via_email(
+            // User account. Who is making the requst? Can be user account or admin account
+            String::from("sreedev@icloud.com"),
+            String::from("Admin@123"),
+            UserTypes::User /* use UserTypes::Admin for admin Authentication */
+        ).await;
+        assert!(auth.is_ok())
+    
+        /* create record */
+        // Fill out the post structure with some sample information
+        let record = Post {
+          title: "Sample title".to_string(),
+          content: "Sample Content".to_string(),
+          author: client.user.unwrap().token,
+          created: "".to_string,
+          updated: "".to_string
+        };
+    
+        // Let response variable be a create record request of type Post model.
+        // Takes in a collection string (table name), reference to structure, and reference to client
+        // Notice the pocketbase_sdk::records::operations::create::COMPLETED_STRUCTURE_VARIABLE::<STRUCTURE_TYPE> fucntion syntax
+        let repsonse = create::record::<Post>("posts", &post, &client).await.unwrap();
+        // Pattern match reposne to check if Success or Failure
+        match repsonse {
+            create::CreateResponse::SuccessResponse(res) => {
+                // Take the result from the SucessResponse and check that title is same as what was in our post structure
+                assert_eq!(res.title, String::from("Sample title"))
+            },
+            // Panic at any FailureResponse
+            create::CreateResponse::FailureResponse(_err) => panic!("Failed!")
+        }
+    
+        /* view record */
+        // Similar to posting, this will retrieive a record
+        let repsonse = view::record::<Post>("posts", "9bbl183t7ioqrea", &client).await.unwrap();
+        match repsonse {
+            view::ViewResponse::SuccessResponse(res) => assert_eq!(res.id, "9bbl183t7ioqrea"),
+            view::ViewResponse::ErrorResponse(_err) => panic!("Failed!")
+        }
+    
+        /* list paginated records */
+        let response = list::records::<Post>("posts", &client).await.unwrap();
+        match response {
+          list::ListResponse::SuccessResponse(paginated_record_list) => {
+            assert_ne!(paginated_record_list.total_items, 0)
+          },
+          list::ListResponse::ErrorResponse(_e) => panic!("could not retrieve resource.")
+        }
+    
+        /* delete a record */
+        let response = delete::record("posts", "9bbl183t7ioqrea", &client).await;
+        assert!(response.is_ok());
+    
+        Ok(())
+    }
 

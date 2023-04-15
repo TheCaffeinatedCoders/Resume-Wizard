@@ -38,6 +38,7 @@ async fn ai_test() -> impl Responder {
 
 #[actix_web::main] // or #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    // Load .env envorment variables, inlcuding OPENAI_API_KEY
     dotenv().ok();
     HttpServer::new(|| App::new().service(greet).service(ai_test))
         .bind(("127.0.0.1", 8080))?
