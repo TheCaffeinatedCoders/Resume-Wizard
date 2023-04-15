@@ -1,7 +1,13 @@
 use actix_web::{get, web, App, HttpServer, Responder};
-use async_openai::{types::CreateCompletionRequestArgs, Client};
+use async_openai::{types::CreateCompletionRequestArgs, Client as OpenAIClient};
 use dotenv::dotenv;
 use std::env;
+use serde::{Serialize, Deserialize};
+use pocketbase_sdk::client::Client as PocketbaseClient;
+use pocketbase_sdk::user::UserTypes;
+use pocketbase_sdk::records::operations::{
+  list, view, delete, create
+};
 
 #[get("/api/greet/{name}")] // <- define path parameters
 async fn greet(name: web::Path<String>) -> impl Responder {
@@ -14,7 +20,7 @@ async fn ai_test() -> impl Responder {
     let openai_secret_key = env::var("OPENAI_API_KEY").unwrap_or_else(|_| {
         panic!("OPENAI_SECRET_KEY not set in enviroment");
     });
-    let openai_client = Client::new().with_api_key(openai_secret_key);
+    let openai_client = OpenAIClient::new().with_api_key(openai_secret_key);
     let request = CreateCompletionRequestArgs::default()
         .model("text-davinci-003") // Model argument
         .prompt("Write me a poem about a wizard giving resume advice to a student unicorn") // Prompt argument
