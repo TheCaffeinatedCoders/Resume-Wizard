@@ -1,21 +1,21 @@
 
 # Table of Contents
 
-1.  [Resume Wizard Backend API](#org8a40a20)
-    1.  [Current Routes](#org4f8f3f7)
-    2.  [Build / Deploy instructions](#org270db03)
-    3.  [Functions](#orgdfe30ac)
-        1.  [User Authentication](#orga7fe17a)
-        2.  [Rust Pocketbse<sub>sdk</sub> crate notes](#org1ece642)
+1.  [Resume Wizard Backend API](#org047a136)
+    1.  [Current Routes](#orgde1fc16)
+    2.  [Build / Deploy instructions](#orgee8b0a6)
+    3.  [Functions](#orgf88e634)
+        1.  [User Authentication](#orgb9801fd)
+        2.  [Rust Pocketbse sdk crate notes](#orgf50254d)
 
 
 
-<a id="org8a40a20"></a>
+<a id="org047a136"></a>
 
 # Resume Wizard Backend API
 
 
-<a id="org4f8f3f7"></a>
+<a id="orgde1fc16"></a>
 
 ## Current Routes
 
@@ -28,7 +28,7 @@ Prints hello to the name given in path
 Prints a test poem about a resume wizard demonstrating the AI completion request works
 
 
-<a id="org270db03"></a>
+<a id="orgee8b0a6"></a>
 
 ## Build / Deploy instructions
 
@@ -53,12 +53,12 @@ Cargo is a Rust all in one tool for managing projects. Running the backend requi
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 
-<a id="orgdfe30ac"></a>
+<a id="orgf88e634"></a>
 
 ## TODO Functions
 
 
-<a id="orga7fe17a"></a>
+<a id="orgb9801fd"></a>
 
 ### User Authentication
 
@@ -79,9 +79,9 @@ Cargo is a Rust all in one tool for managing projects. Running the backend requi
     This API endpoint will handle token verification. When the front-end sends a request to a protected endpoint, it will include the user&rsquo;s token in the request headers. The protected endpoint will then send a request to this endpoint to verify the token. If the token is valid, the protected endpoint will continue with its operation. If the token is invalid or has expired, the protected endpoint will return an error message.
 
 
-<a id="org1ece642"></a>
+<a id="orgf50254d"></a>
 
-### Rust Pocketbse<sub>sdk</sub> crate notes
+### Rust Pocketbse sdk crate notes
 
     
     // Models to import and use
