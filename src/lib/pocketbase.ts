@@ -21,3 +21,21 @@ pb.authStore.onChange((auth) => {
 })
 
 export const testString = "Hello from Pocketbase.ts!"
+
+export const testFunction = () => {
+  console.log("This is a test function");
+  alert("This is a test function");
+}
+
+export const login = async (username_or_email: string, user_password: string) => {
+  const authData = await pb.collection('users').authWithPassword(
+    username_or_email,
+    user_password,
+  );
+  console.log('authData', authData);
+  return authData;
+}
+
+export const logout = async () => {
+  pb.authStore.clear();
+}
