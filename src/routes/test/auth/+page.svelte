@@ -18,7 +18,7 @@
   async function getDataIfLoggedIn() {
     if (pb.authStore.isValid) {
       // alert("Logged in!"); 
-      let userid = pb.authStore.model.id;
+      let userid = pb.authStore.model?.id;
       console.log('userid', userid);
       const userData = await pb.collection('users').getOne(userid);
       console.log('userData', userData);
@@ -53,6 +53,6 @@
   <br>
   <button on:click={() => getDataIfLoggedIn()}>Get Data if Logged In</button>
   <br>
-  <p>Return Data: {JSON.stringify(returnData)}</p>
+  <p>Return Data: { JSON.stringify(returnData) }</p>
 
 </div>
