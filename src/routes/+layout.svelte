@@ -54,12 +54,12 @@
 				<div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
 					<a href="/" class="flex items-center">
 						<img src={logo} alt="Logo" width="100" height="100" />
-						<h2>
+						<p class="TitleLogo">
 							<span
 								class="bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone"
 								>Resume Wizard</span
 							>
-						</h2>
+						</p>
 					</a>
 					<div class="flex items-center lg:order-2">
 						<a
@@ -144,19 +144,19 @@
 	@tailwind utilities;
 
 	/* Custom CSS */
-	h2 {
+	.TitleLogo {
 		font-size: 2rem;
 	}
 
 	#main {
 		padding: 2rem;
 		/* height: 100vh; */
-		background-image: radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
+		/* background-image: radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 0%, hsla(189, 85%, 82%, 1) 0px, transparent 50%),
 			radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 1) 0px, transparent 50%),
 			radial-gradient(at 79% 50%, hsla(340, 28%, 82%, 1) 0px, transparent 50%),
 			radial-gradient(at 0% 100%, hsla(14, 53%, 78%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 100%, hsla(240, 62%, 76%, 1) 0px, transparent 50%),
-			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
+			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%); */
 	}
 </style>
