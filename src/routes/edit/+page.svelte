@@ -1,12 +1,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js">
-	import { Stepper, Step } from '@skeletonlabs/skeleton';
+	import { Stepper, Step, InputChip } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
 
 	import gptImage from '$lib/images/chatgptLogo.png';
 
 	let startDate = new Date();
 	let endDate = new Date();
-	let yes = false;
+	let yes = false; //when true, the end date will be disabled
 
 	let selectedDegree = '1'; //index of the degree
 	let showCustomDegree = false; //when true, user can put their own customed degree which wasn't listed
@@ -14,9 +14,11 @@
 	// toggle to show the suggestion on the right side with 3 different options
 	let showSuggestion = true;
 
+	// the value of the description area (textarea)
 	let description = "I'm a genius";
-
 	let suggestedSentences = ["I'm genius number 1", "I'm genius number 2", "I'm genius number 3"];
+
+	let stackList = [];
 
 	$: {
 		showCustomDegree = selectedDegree == '15';
@@ -115,6 +117,51 @@
 									style="margin-right: 0.5rem"
 									bind:checked={yes}
 								/>
+								I'm currently attending here
+							</label>
+						</div>
+					</div>
+				</div>
+			</Step>
+
+			<Step>
+				<svelte:fragment slot="header">Professional Experience</svelte:fragment>
+
+				<div class="forms">
+					<div class="formEDBasic">
+						<label class="label">
+							<span>Job Title</span>
+							<input type="text" placeholder="Input" class="input variant-form-material" />
+						</label>
+						<label class="label">
+							<span>Company</span>
+							<input type="text" placeholder="Input" class="input variant-form-material" />
+						</label>
+						<label class="label">
+							<span>Location</span>
+							<input type="text" placeholder="Input" class="input variant-form-material" />
+						</label>
+					</div>
+
+					<div class="formEDDate">
+						<label class="label">
+							<span>Start Date</span>
+							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
+						</label>
+						<label class="label">
+							<span>End Date</span>
+							<DateInput format="yyyy/MM/dd" disabled={yes} bind:value={endDate} />
+						</label>
+
+						<div class="checkboxHeight">
+							<label for="endDate">
+								<input
+									type="checkbox"
+									id="endDate"
+									name="endDate"
+									style="margin-right: 0.5rem"
+									bind:checked={yes}
+								/>
 								I'm currently working here
 							</label>
 						</div>
@@ -181,54 +228,106 @@
 					{/if}
 				</div>
 			</Step>
+
 			<Step>
-				<svelte:fragment slot="header">(Experience)</svelte:fragment>
+				<svelte:fragment slot="header">Projects</svelte:fragment>
+
 				<div class="forms">
-					<label class="label">
-						<span>Name</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label>
-						<span>Phone</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label class="label">
-						<span>Email</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label class="label">
-						<span>Github</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label>
-						<span>Linkedin</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-				</div>
-			</Step>
-			<Step>
-				<svelte:fragment slot="header">(Projects)</svelte:fragment>
-				<div class="forms">
-					<label class="label">
-						<span>Name</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label>
-						<span>Phone</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label class="label">
-						<span>Email</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label class="label">
-						<span>Github</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
-					<label>
-						<span>Linkedin</span>
-						<input type="text" placeholder="Input" class="input variant-form-material" />
-					</label>
+					<div class="formEDBasic">
+						<label class="label">
+							<span>Project Name</span>
+							<input type="text" placeholder="Input" class="input variant-form-material" />
+						</label>
+						<label class="label">
+							<span>Stack that used</span>
+							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+						</label>
+					</div>
+
+					<div class="formEDDate">
+						<label class="label">
+							<span>Start Date</span>
+							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
+						</label>
+
+						<label class="label">
+							<span>End Date</span>
+							<DateInput format="yyyy/MM/dd" disabled={yes} bind:value={endDate} />
+						</label>
+
+						<div class="checkboxHeight">
+							<label for="endDate">
+								<input
+									type="checkbox"
+									id="endDate"
+									name="endDate"
+									style="margin-right: 0.5rem"
+									bind:checked={yes}
+								/>
+								I'm still working on this project
+							</label>
+						</div>
+					</div>
+
+					{#if showSuggestion}
+						<div class="textarea-container ">
+							<textarea
+								bind:value={description}
+								class="textarea h-96"
+								rows="20"
+								placeholder="Enter some long form content."
+							/>
+							<button
+								class="chatgpt-button"
+								on:click={() => {
+									showSuggestion = !showSuggestion;
+								}}
+							>
+								<img src={gptImage} alt="ChatGPT" />
+							</button>
+						</div>
+					{:else}
+						<div class="flex w-full h-96 mt-10">
+							<div class="w-1/2">
+								<textarea
+									bind:value={description}
+									class="textarea h-full"
+									placeholder="Enter some long form content."
+								/>
+							</div>
+							<div class="w-1/2 ml-10">
+								<div class="flex flex-col h-full">
+									<textarea
+										on:click={() => {
+											description = suggestedSentences[0];
+											showSuggestion = !showSuggestion;
+										}}
+										bind:value={suggestedSentences[0]}
+										class="textarea h-full mb-3"
+										placeholder="Enter some long form content."
+									/>
+									<textarea
+										on:click={() => {
+											description = suggestedSentences[1];
+											showSuggestion = !showSuggestion;
+										}}
+										bind:value={suggestedSentences[1]}
+										class="textarea h-full mb-3"
+										placeholder="Enter some long form content."
+									/>
+									<textarea
+										on:click={() => {
+											description = suggestedSentences[2];
+											showSuggestion = !showSuggestion;
+										}}
+										bind:value={suggestedSentences[2]}
+										class="textarea h-full"
+										placeholder="Enter some long form content."
+									/>
+								</div>
+							</div>
+						</div>
+					{/if}
 				</div>
 			</Step>
 		</Stepper>
