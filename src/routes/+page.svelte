@@ -17,6 +17,9 @@
 		<Mainpage />
 		<Login />
 	{:else}
+	
+		<!-- Dawn's code area -->
+
 		<h1>main page but not sure what to put it</h1>
 		<!-- <Profile /> -->
 	{/if}
