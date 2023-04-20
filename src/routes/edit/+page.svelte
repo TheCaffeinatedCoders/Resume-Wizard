@@ -2,14 +2,21 @@
 	import { Stepper, Step } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
 
-	import gptImage from '$lib/images/ChatGPT_logo.svg.webp';
+	import gptImage from '$lib/images/chatgptLogo.png';
 
 	let startDate = new Date();
 	let endDate = new Date();
 	let yes = false;
 
-	let selectedDegree = '1';
-	let showCustomDegree = false;
+	let selectedDegree = '1'; //index of the degree
+	let showCustomDegree = false; //when true, user can put their own customed degree which wasn't listed
+
+	// toggle to show the suggestion on the right side with 3 different options
+	let showSuggestion = true;
+
+	let description = "I'm a genius";
+
+	let suggestedSentences = ["I'm genius number 1", "I'm genius number 2", "I'm genius number 3"];
 
 	$: {
 		showCustomDegree = selectedDegree == '15';
@@ -18,26 +25,6 @@
 
 <div class="body">
 	<h1>Edit your unique resume!</h1>
-
-	<!-- <label class="label">
-		<span>Select</span>
-		<select class="select variant-form-material">
-			<option value="1">Option 1</option>
-			<option value="2">Option 2</option>
-			<option value="3">Option 3</option>
-			<option value="4">Option 4</option>
-			<option value="5">Option 5</option>
-		</select>
-	</label>
-
-	<label class="label">
-		<span>Textarea</span>
-		<textarea
-			class="textarea"
-			rows="4"
-			placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-		/>
-	</label> -->
 
 	<div class="wrapStepper">
 		<Stepper>
@@ -118,8 +105,8 @@
 							<span>End Date</span>
 							<DateInput format="yyyy/MM/dd" disabled={yes} bind:value={endDate} />
 						</label>
+
 						<div class="checkboxHeight">
-							<!-- <input type="checkbox" id="endDate" name="endDate" /> -->
 							<label for="endDate">
 								<input
 									type="checkbox"
@@ -133,60 +120,65 @@
 						</div>
 					</div>
 
-					<div class="textarea-container">
-						<textarea class="textarea" rows="4" placeholder="Enter some long form content." />
-						<button class="chatgpt-button">
-							<img src={gptImage} alt="ChatGPT" />
-						</button>
-					</div>
-
-					<!-- <div date-rangepicker class="flex items-center">
-						<div class="relative">
-							<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-								<svg
-									aria-hidden="true"
-									class="w-5 h-5 text-gray-500 dark:text-gray-400"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									><path
-										fill-rule="evenodd"
-										d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-										clip-rule="evenodd"
-									/></svg
-								>
-							</div>
-							<input
-								name="start"
-								type="text"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								placeholder="Select date start"
+					{#if showSuggestion}
+						<div class="textarea-container ">
+							<textarea
+								bind:value={description}
+								class="textarea h-96"
+								rows="20"
+								placeholder="Enter some long form content."
 							/>
+							<button
+								class="chatgpt-button"
+								on:click={() => {
+									showSuggestion = !showSuggestion;
+								}}
+							>
+								<img src={gptImage} alt="ChatGPT" />
+							</button>
 						</div>
-						<span class="mx-4 text-gray-500">to</span>
-						<div class="relative">
-							<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-								<svg
-									aria-hidden="true"
-									class="w-5 h-5 text-gray-500 dark:text-gray-400"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									><path
-										fill-rule="evenodd"
-										d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-										clip-rule="evenodd"
-									/></svg
-								>
+					{:else}
+						<div class="flex w-full h-96 mt-10">
+							<div class="w-1/2">
+								<textarea
+									bind:value={description}
+									class="textarea h-full"
+									placeholder="Enter some long form content."
+								/>
 							</div>
-							<input
-								name="end"
-								type="text"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								placeholder="Select date end"
-							/>
+							<div class="w-1/2 ml-10">
+								<div class="flex flex-col h-full">
+									<textarea
+										on:click={() => {
+											description = suggestedSentences[0];
+											showSuggestion = !showSuggestion;
+										}}
+										bind:value={suggestedSentences[0]}
+										class="textarea h-full mb-3"
+										placeholder="Enter some long form content."
+									/>
+									<textarea
+										on:click={() => {
+											description = suggestedSentences[1];
+											showSuggestion = !showSuggestion;
+										}}
+										bind:value={suggestedSentences[1]}
+										class="textarea h-full mb-3"
+										placeholder="Enter some long form content."
+									/>
+									<textarea
+										on:click={() => {
+											description = suggestedSentences[2];
+											showSuggestion = !showSuggestion;
+										}}
+										bind:value={suggestedSentences[2]}
+										class="textarea h-full"
+										placeholder="Enter some long form content."
+									/>
+								</div>
+							</div>
 						</div>
-					</div> -->
+					{/if}
 				</div>
 			</Step>
 			<Step>
@@ -290,14 +282,14 @@
 	}
 
 	.textarea-container {
+		width: 100%;
+		margin-top: 2.5rem;
 		position: relative;
 		display: inline-block;
 	}
 
+	/* actual class for textarea */
 	.textarea {
-		display: block;
-		width: 100%;
-		margin-bottom: 10px;
 	}
 
 	.chatgpt-button {
