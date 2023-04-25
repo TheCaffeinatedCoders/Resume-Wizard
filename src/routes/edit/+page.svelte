@@ -330,6 +330,31 @@
 					{/if}
 				</div>
 			</Step>
+
+			<Step>
+				<svelte:fragment slot="header">Skills</svelte:fragment>
+
+				<div class="forms">
+					<div class="formEDBasic">
+						<label class="label">
+							<span>Languages</span>
+							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+						</label>
+						<label class="label">
+							<span>Frameworks</span>
+							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+						</label>
+						<label class="label">
+							<span>Developer Tools</span>
+							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+						</label>
+						<label class="label">
+							<span>Libraries</span>
+							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+						</label>
+					</div>
+				</div>
+			</Step>
 		</Stepper>
 	</div>
 </div>
