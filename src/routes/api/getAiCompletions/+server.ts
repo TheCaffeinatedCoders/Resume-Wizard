@@ -36,3 +36,6 @@ export const GET = (async ({ url }) => {
     }
 
 });
+
+
+// http://127.0.0.1:5173/api/getAiCompletions?prompt="Say hello world"&completionCount=3&maxTokens=200&temperature=0.7
