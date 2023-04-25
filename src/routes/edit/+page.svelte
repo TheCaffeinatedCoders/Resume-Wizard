@@ -18,7 +18,11 @@
 	let description = "I'm a genius";
 	let suggestedSentences = ["I'm genius number 1", "I'm genius number 2", "I'm genius number 3"];
 
-	let stackList: any = [];
+    let stackList: any = [];
+ 	let languagesList: any = [];
+ 	let frameworksList: any = [];
+ 	let toolsList: any = [];
+ 	let libaryList: any = [];
 
 	$: {
 		showCustomDegree = selectedDegree == '15';
@@ -368,19 +372,19 @@
 					<div class="formEDBasic">
 						<label class="label">
 							<span>Languages</span>
-							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+							<InputChip bind:value={languagesList} name="chips" placeholder="Enter any value..." />
 						</label>
 						<label class="label">
 							<span>Frameworks</span>
-							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+							<InputChip bind:value={frameworksList} name="chips" placeholder="Enter any value..." />
 						</label>
 						<label class="label">
 							<span>Developer Tools</span>
-							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+							<InputChip bind:value={toolsList} name="chips" placeholder="Enter any value..." />
 						</label>
 						<label class="label">
 							<span>Libraries</span>
-							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+							<InputChip bind:value={libaryList} name="chips" placeholder="Enter any value..." />
 						</label>
 					</div>
 				</div>
