@@ -20,7 +20,7 @@
       // alert("Logged in!"); 
       let userid = pb.authStore.model?.id;
       console.log('userid', userid);
-      const userData = await pb.collection('users').getOne(userid);
+      const userData = await pb.collection('users').getOne(userid?);
       console.log('userData', userData);
       console.log(returnData);
       returnData = userData.userData;
