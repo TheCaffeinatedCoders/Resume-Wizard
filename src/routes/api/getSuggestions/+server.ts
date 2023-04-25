@@ -10,13 +10,13 @@ export const GET = (async ({ url }) => {
     const comletionCount = Number(url.searchParams.get('completionCount') ?? '3'); 
     const maxTokens = Number(url.searchParams.get('maxTokens') ?? '200');
 
-    console.log("getAICompletion call!");
+    // console.log("getAICompletion call!");
 
     const openai = new OpenAIApi(configuration);
 
-    console.log("Prompt", prompt);
-    console.log("Completion Count", comletionCount);
-    console.log("Max Tokens", maxTokens);
+    // console.log("Prompt", prompt);
+    // console.log("Completion Count", comletionCount);
+    // console.log("Max Tokens", maxTokens);
 
     let suggestions: string[] = []
 
@@ -50,7 +50,7 @@ export const GET = (async ({ url }) => {
             }
         }
    }
-
+//    console.log("Suggestions", suggestions);
    return json(suggestions);
 });
 

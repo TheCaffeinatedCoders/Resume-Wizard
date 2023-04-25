@@ -1,4 +1,4 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js" lang="ts">
 	import { Stepper, Step, InputChip } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
 
@@ -18,10 +18,38 @@
 	let description = "I'm a genius";
 	let suggestedSentences = ["I'm genius number 1", "I'm genius number 2", "I'm genius number 3"];
 
-	let stackList = [];
+	let stackList: any = [];
 
 	$: {
 		showCustomDegree = selectedDegree == '15';
+	}
+
+	async function fetchSuggestions() {
+
+		// console.log("Fetching new suggestions")
+
+		const queryParams = new URLSearchParams({
+			prompt: description,
+			completionCount: String(3),
+			maxTokens: String(200),
+		});
+
+		// fetch the suggestions from the backend
+		const response = await fetch(`/api/getSuggestions?${queryParams}`);
+
+		// parse the response into suggestedSentences
+		// console.log("New suggestions fetched");
+		// console.log(response);
+		let data = await response.json();
+		
+		// console.log(data);
+
+		suggestedSentences = [];
+
+		for (let suggestion of data) {
+			suggestedSentences.push(suggestion);
+		}
+
 	}
 </script>
 
@@ -178,6 +206,7 @@
 							<button
 								class="chatgpt-button"
 								on:click={() => {
+									fetchSuggestions();
 									showSuggestion = !showSuggestion;
 								}}
 							>
@@ -281,6 +310,7 @@
 								class="chatgpt-button"
 								on:click={() => {
 									showSuggestion = !showSuggestion;
+									fetchSuggestions();
 								}}
 							>
 								<img src={gptImage} alt="ChatGPT" />
