@@ -1,8 +1,9 @@
 import { json } from "@sveltejs/kit"
 
 import { Configuration, OpenAIApi } from "openai";
+import { OPENAI_API_KEY } from '$env/static/private'
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY,
 });
 
 export const GET = (async ({ url }) => {
