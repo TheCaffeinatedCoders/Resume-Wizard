@@ -1,10 +1,27 @@
 <script lang="ts">
-	import { currentUser } from '$lib/pocketbase';
+	import { pb, currentUser } from '$lib/pocketbase';
 
 	import Mainpage from '$lib/components/Mainpage.svelte';
 	import Login from '$lib/components/Login.svelte';
 
 	import Profile from '$lib/components/Profile.svelte';
+
+	// Broken Google Button Signin Function
+	// async function handleGoogleSignIn() {
+	// 	// // Add sign in logic here
+	// 	// console.log('Google sign in');
+	// 	// // Use fetch to call /api/oauth2-redirect POST function
+	// 	// const googleAuthData = await fetch('/api/oauth2-redirect', {
+	// 	// 	method: 'POST',
+	// 	// 	headers: {
+	// 	// 		'Content-Type': 'application/json'
+	// 	// 	},
+	// 	// 	body: JSON.stringify({ provider: 'google' })
+	// 	// })
+	// 	// // .then((res) => console.log(res.json())); 
+	// 	// console.log("Google auth data:", googleAuthData);
+	// 	const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+	// }
 </script>
 
 <svelte:head>
@@ -16,6 +33,8 @@
 	{#if !$currentUser}
 		<Mainpage />
 		<Login />
+		<!-- Broken Google Button -->
+		<!-- <button class="border border-green-300 rounded-md" on:click={handleGoogleSignIn}>Google Sign In!</button> -->
 	{:else}
 	
 		<!-- Dawn's code area -->
