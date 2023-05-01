@@ -34,13 +34,6 @@
 </AppShell>
 
 <style>
-	/* Tailwind CSS */
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-
-
-
 	#main {
 		padding: 2rem;
 		/* height: 100vh; */
