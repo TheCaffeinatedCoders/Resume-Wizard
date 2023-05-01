@@ -29,8 +29,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm ci
-    - name: Set environment variable
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    - name: Set openAI environment variable
+      run: export OPENAI_API_KEY = ${{ secrets.OPENAI_API_KEY }}
     - run: npm run build --if-present
     # - run: npm test
