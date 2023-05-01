@@ -1,21 +1,10 @@
-<script>
+<script lang="ts">
 	import { currentUser, pb } from '$lib/pocketbase';
 	import UserInfo from '$lib/components/UserInfo.svelte';
 
-    // For some reason TypeScript syntax didn't work here
-    // TODO: Figure out why
-	/**
-	 * @type {string}
-	 */
-	let username;
-	/**
-	 * @type {string}
-	 */
-	let password;
-    /**
-	 * @type {string}
-	 */
-    let error;
+	let username: string;
+	let password: string;
+    let error: string;
 
 	async function login() {
 		// TODO: Figure out to login with Google or Github button, not username/password

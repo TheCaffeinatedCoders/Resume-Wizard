@@ -1,10 +1,16 @@
 <script lang="ts">
-	import { currentUser } from '$lib/pocketbase';
+	import { pb, currentUser } from '$lib/pocketbase';
 
 	import Mainpage from '$lib/components/Mainpage.svelte';
 	import Login from '$lib/components/Login.svelte';
 
 	import Profile from '$lib/components/Profile.svelte';
+
+	async function handleGoogleSignIn() {
+		// Add sign in logic here
+		const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+	}
+	
 </script>
 
 <svelte:head>
@@ -16,6 +22,7 @@
 	{#if !$currentUser}
 		<Mainpage />
 		<Login />
+		<button class="border border-green-300 rounded-md" on:click={handleGoogleSignIn}>Google Sign In!</button>
 	{:else}
 	
 		<!-- Dawn's code area -->
@@ -46,10 +53,6 @@
 </div>
 
 <style>
-	@import 'tailwindcss/base';
-	@import 'tailwindcss/components';
-	@import 'tailwindcss/utilities';
-
 	.homecontainer {
 		/* Body stylings for background color and page size at src/routes/styles.css
 			SOMEHOW NEED THIS TO MAKE <MAINPAGE> and <LOGIN> to be centered
