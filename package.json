@@ -54,6 +54,6 @@
 		"fs": "0.0.1-security",
 		"lodash": "^4.17.21",
 		"openai": "^3.1.0",
-		"pocketbase": "^0.10.2"
+		"pocketbase": "^0.14.3"
 	}
 }
