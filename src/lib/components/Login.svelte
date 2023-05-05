@@ -41,6 +41,11 @@
     function signOut() {
         pb.authStore.clear();
     }
+
+	async function handleGoogleSignIn() {
+		// Add sign in logic here
+		const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+	}
 </script>
 
 {#if $currentUser}
@@ -57,6 +62,7 @@
 		<button on:click={signUp}>Sign Up</button>
 		<button on:click={login}>Login</button>
 	</div>
+	<button class="border border-green-300 rounded-md" on:click={handleGoogleSignIn}>Google Sign In!</button>
 {/if}
 <!-- If errror -->
 {#if error}

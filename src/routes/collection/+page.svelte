@@ -1,1 +1,0 @@
-<h1>This page is for collection page where you can see your previous resume</h1>
