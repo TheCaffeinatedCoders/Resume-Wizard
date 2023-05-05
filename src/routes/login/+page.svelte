@@ -12,12 +12,18 @@
 			const authData = await pb.collection('users').authWithPassword(username, password);
 			error = '';
 
-            // Navigate to the '/home' route
-            goto('/home');
-		} catch (e) {
-			console.error(e);
-			// @ts-ignore
-			error = JSON.stringify(e.data);
+			// Navigate to the '/home' route
+			goto('/home');
+		} catch (e: any) {
+			if (e.status === 400 || e.status === 405) {
+				// Display an error message to the user
+				error = "Invalid username or password";
+				console.log("Invalidd username or password")
+			} else {
+				console.error(e);
+				// @ts-ignore
+				error = JSON.stringify(e.data);
+			}
 		}
 	}
 
@@ -47,7 +53,7 @@
 		goto('/home'); // Add this line to redirect to the '/home' route
 	}
 
-    	// Your selected Skeleton theme:
+	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	// import '../theme.postcss';
 
@@ -78,7 +84,7 @@
 
 		<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
 			<div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-				<form class="space-y-6" action="#" method="POST">
+				<form class="space-y-6">
 					<div>
 						<label for="email" class="block text-sm font-medium text-gray-700">
 							Email address
@@ -133,7 +139,6 @@
 
 					<div>
 						<button
-							type="submit"
 							on:click={login}
 							class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 						>
@@ -182,7 +187,6 @@
 								<img class="h-6 w-6" src="https://www.svgrepo.com/show/506498/google.svg" alt="" />
 							</button>
 						</div>
-					
 					</div>
 				</div>
 			</div>
