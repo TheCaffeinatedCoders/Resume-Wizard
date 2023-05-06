@@ -68,11 +68,11 @@
 	<!-- <link rel="stylesheet" href="/tutorial/dark-theme.css"> -->
 </svelte:head>
 
-{#if $currentUser}
+<!-- {#if $currentUser}
 	<h1>Welcome, {$currentUser.username}!</h1>
 	<button on:click={signOut}>Sign Out</button>
 	<UserInfo />
-{:else}
+{:else} -->
 	<div class="loginMain min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
 		<div class="sm:mx-auto sm:w-full sm:max-w-md">
 			<h2 class="mt-6 text-center text-3xl font-extrabold ">Sign in to your account</h2>
@@ -192,7 +192,7 @@
 			</div>
 		</div>
 	</div>
-{/if}
+<!-- {/if} -->
 
 <!-- If errror -->
 {#if error}
