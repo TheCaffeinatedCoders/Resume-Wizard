@@ -20,13 +20,6 @@ pb.authStore.onChange((auth) => {
   currentUser.set(pb.authStore.model)
 })
 
-export const testString = "Hello from Pocketbase.ts!"
-
-export const testFunction = () => {
-  console.log("This is a test function");
-  alert("This is a test function");
-}
-
 export const login = async (username_or_email: string, user_password: string) => {
   const authData = await pb.collection('users').authWithPassword(
     username_or_email,
@@ -39,25 +32,3 @@ export const login = async (username_or_email: string, user_password: string) =>
 export const logout = () => {
   pb.authStore.clear();
 }
-
-// Broken google Oauth direct URL
-
-// export const OauthSignIn = async () => {
-//   console.log('OauthSignIn...')
-//   const authData = await pb.collection('users').authWithOAuth2(
-//     'google',
-//     'CODE',
-//     'VERIFIER',
-//     'http://ResumeWizard.tech/api/oauth2-redirect',
-//     // optional data that will be used for the new account on OAuth2 sign-up
-//     // {
-//     //   'name': 'test',
-//     // },
-//   );
-//   console.log('authData', authData);
-
-//   // after the above you can also access the auth data from the authStore
-//   console.log(pb.authStore.isValid);
-//   console.log(pb.authStore.token);
-//   console.log(pb.authStore.model?.id);
-// }
