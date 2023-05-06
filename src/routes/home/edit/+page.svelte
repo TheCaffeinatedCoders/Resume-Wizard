@@ -1,5 +1,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js" lang="ts">
-	import { Stepper, Step, InputChip } from '@skeletonlabs/skeleton';
+	import { Stepper, Step, InputChip, ProgressRadial } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
 	// import type { Snapshot } from './$types';
 
@@ -275,33 +275,44 @@
 							</div>
 							<div class="w-1/2 ml-10">
 								<div class="flex flex-col h-full">
-									<textarea
-										on:click={() => {
-											description = suggestedSentences[0];
-											showSuggestion = !showSuggestion;
-										}}
-										bind:value={suggestedSentences[0]}
-										class="textarea h-full mb-3"
-										placeholder="Enter some long form content."
-									/>
-									<textarea
-										on:click={() => {
-											description = suggestedSentences[1];
-											showSuggestion = !showSuggestion;
-										}}
-										bind:value={suggestedSentences[1]}
-										class="textarea h-full mb-3"
-										placeholder="Enter some long form content."
-									/>
-									<textarea
-										on:click={() => {
-											description = suggestedSentences[2];
-											showSuggestion = !showSuggestion;
-										}}
-										bind:value={suggestedSentences[2]}
-										class="textarea h-full"
-										placeholder="Enter some long form content."
-									/>
+									<!-- If loadingSuggestions -->
+									{#if loadingSuggestions}
+										<ProgressRadial value={undefined} />
+									{:else}
+										<button
+											type="button"
+											on:click={() => {
+												description = suggestedSentences[0];
+												showSuggestion = !showSuggestion;
+											}}
+											class="textarea h-full mb-3"
+											placeholder="Enter some long form content."
+										>
+											{suggestedSentences[0]}
+										</button>
+										<button
+											type="button"
+											on:click={() => {
+												description = suggestedSentences[1];
+												showSuggestion = !showSuggestion;
+											}}
+											class="textarea h-full mb-3"
+											placeholder="Enter some long form content."
+										>
+											{suggestedSentences[1]}
+										</button>
+										<button
+											type="button"
+											on:click={() => {
+												description = suggestedSentences[2];
+												showSuggestion = !showSuggestion;
+											}}
+											class="textarea h-full"
+											placeholder="Enter some long form content."
+										>
+											{suggestedSentences[2]}
+										</button>
+									{/if}
 								</div>
 							</div>
 						</div>
@@ -478,10 +489,10 @@
 	}
 
 	/* .body { */
-		/* @apply text-error-900;
+	/* @apply text-error-900;
 		background-color: hsla(0, 100%, 50%, 0.5); */
 
-		/* padding: 2rem;
+	/* padding: 2rem;
 		height: 100vh;
 		background-image: radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 0%, hsla(189, 85%, 82%, 1) 0px, transparent 50%),
