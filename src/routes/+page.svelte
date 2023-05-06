@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
@@ -24,21 +23,16 @@
 </svelte:head>
 
 <div class="homecontainer">
-
-
 	<div class="background overflow-auto">
 		<div class="FirstImage">
 			<img src="../src/lib/images/company motto.png" alt="companymotto" />
 		</div>
-		<div class="centerbuttons">		
-
+		<div class="centerbuttons">
 			<div class="textborder">
-				<a href="/login" >
+				<a href="/login">
 					<span class="text-pink-400"> Get your new Resume </span>
 				</a>
 			</div>
-
-
 		</div>
 	</div>
 </div>
@@ -93,4 +87,3 @@
 		justify-content: center;
 	}
 </style>
-

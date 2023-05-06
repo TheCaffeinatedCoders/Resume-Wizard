@@ -19,8 +19,6 @@
 	// 	restore: (value) => (formData = value)
 	// };
 
-	
-
 	//DATE sections
 	let startDate = new Date();
 	let endDate = new Date();
@@ -84,7 +82,7 @@
 			<Step>
 				<svelte:fragment slot="header">Personal Information</svelte:fragment>
 				<div class="forms">
-					<label class="label">
+					<label class="label" for="Name">
 						<span>Name</span>
 						<input
 							bind:value={formData.name}
@@ -102,7 +100,7 @@
 							class="input variant-form-material"
 						/>
 					</label>
-					<label class="label">
+					<label class="label" for="Email">
 						<span>Email</span>
 						<input
 							bind:value={formData.email}
@@ -111,19 +109,19 @@
 							class="input variant-form-material"
 						/>
 					</label>
-					<label class="label">
+					<label class="label" for="Github URL">
 						<span>Github</span>
 						<input
-							bind:value={formData.linkedin}
+							bind:value={formData.github}
 							type="text"
 							placeholder="Input"
 							class="input variant-form-material"
 						/>
 					</label>
-					<label>
+					<label class="label" for="Linkedin URL">
 						<span>Linkedin</span>
 						<input
-							bind:value={formData.github}
+							bind:value={formData.linkedin}
 							type="text"
 							placeholder="Input"
 							class="input variant-form-material"
@@ -137,15 +135,15 @@
 
 				<div class="forms">
 					<div class="formEDBasic">
-						<label class="label">
+						<label class="label" for="School Name">
 							<span>School name</span>
 							<input type="text" placeholder="Input" class="input variant-form-material" />
 						</label>
-						<label class="label">
+						<label class="label" for="School Location">
 							<span>School Location</span>
 							<input type="text" placeholder="Input" class="input variant-form-material" />
 						</label>
-						<label class="label">
+						<label class="label" for="Degree">
 							<span>Degree</span>
 							<select class="select" bind:value={selectedDegree}>
 								console.log(selectedDegree);
@@ -167,7 +165,7 @@
 							</select>
 						</label>
 						{#if showCustomDegree}
-							<label class="label">
+							<label class="label" for="Custom Degree">
 								<span>Enter your degree</span>
 								<input type="text" placeholder="Input" class="input variant-form-material" />
 							</label>
@@ -175,11 +173,11 @@
 					</div>
 
 					<div class="formEDDate">
-						<label class="label">
+						<label class="label" for="Education Start Date">
 							<span>Start Date</span>
 							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
 						</label>
-						<label class="label">
+						<label class="label" for="Education End Date">
 							<span>End Date</span>
 							<DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={endDate} />
 						</label>
@@ -205,32 +203,32 @@
 
 				<div class="forms">
 					<div class="formEDBasic">
-						<label class="label">
+						<label class="label" for="Job Title">
 							<span>Job Title</span>
 							<input type="text" placeholder="Input" class="input variant-form-material" />
 						</label>
-						<label class="label">
+						<label class="label" for="Company Title">
 							<span>Company</span>
 							<input type="text" placeholder="Input" class="input variant-form-material" />
 						</label>
-						<label class="label">
+						<label class="label" for="Company Location">
 							<span>Location</span>
 							<input type="text" placeholder="Input" class="input variant-form-material" />
 						</label>
 					</div>
 
 					<div class="formEDDate">
-						<label class="label">
+						<label class="label" for="Job Start Date">
 							<span>Start Date</span>
 							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
 						</label>
-						<label class="label">
+						<label class="label" for="Job End Date">
 							<span>End Date</span>
 							<DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={endDate} />
 						</label>
 
 						<div class="checkboxHeight">
-							<label for="endDate">
+							<label class="label" for="Currently Working Job Checkbox">
 								<input
 									type="checkbox"
 									id="endDate"
@@ -311,33 +309,33 @@
 
 				<div class="forms">
 					<div class="formEDBasic">
-						<label class="label">
+						<label class="label" for="Project Name">
 							<span>Project Name</span>
 							<input type="text" placeholder="Input" class="input variant-form-material" />
 						</label>
-						<label class="label">
+						<label class="label" for="Tech stack used">
 							<span>Stack that used</span>
 							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
 						</label>
 					</div>
 
 					<div class="formEDDate">
-						<label class="label">
+						<label class="label" for="Project Start Date">
 							<span>Start Date</span>
 							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
 						</label>
 
-						<label class="label">
+						<label class="label" for="Project End Date">
 							<span>End Date</span>
 							<DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={endDate} />
 						</label>
 
 						<div class="checkboxHeight">
-							<label for="endDate">
+							<label class="label" for="Project In Progress">
 								<input
 									type="checkbox"
-									id="endDate"
-									name="endDate"
+									id="projectInProgress"
+									name="projectInProcess"
 									style="margin-right: 0.5rem"
 									bind:checked={currentlyWorking}
 								/>
@@ -414,11 +412,11 @@
 
 				<div class="forms">
 					<div class="formEDBasic">
-						<label class="label">
+						<label class="label" for="Programming Languages">
 							<span>Languages</span>
 							<InputChip bind:value={languagesList} name="chips" placeholder="Enter any value..." />
 						</label>
-						<label class="label">
+						<label class="label" for="Frameworks Used">
 							<span>Frameworks</span>
 							<InputChip
 								bind:value={frameworksList}
@@ -426,11 +424,11 @@
 								placeholder="Enter any value..."
 							/>
 						</label>
-						<label class="label">
+						<label class="label" for="Developer Tools Used">
 							<span>Developer Tools</span>
 							<InputChip bind:value={toolsList} name="chips" placeholder="Enter any value..." />
 						</label>
-						<label class="label">
+						<label class="label" for="Libaries Used">
 							<span>Libraries</span>
 							<InputChip bind:value={libaryList} name="chips" placeholder="Enter any value..." />
 						</label>
@@ -472,7 +470,7 @@
 		margin-bottom: 2rem;
 	}
 
-	.body {
+	/* .body { */
 		/* @apply text-error-900;
 		background-color: hsla(0, 100%, 50%, 0.5); */
 
@@ -485,7 +483,7 @@
 			radial-gradient(at 0% 100%, hsla(14, 53%, 78%, 1) 0px, transparent 50%),
 			radial-gradient(at 80% 100%, hsla(240, 62%, 76%, 1) 0px, transparent 50%),
 			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%); */
-	}
+	/* } */
 
 	.textarea-container {
 		width: 100%;
@@ -495,8 +493,8 @@
 	}
 
 	/* actual class for textarea */
-	.textarea {
-	}
+	/* .textarea {
+	} */
 
 	.chatgpt-button {
 		display: inline-block;
