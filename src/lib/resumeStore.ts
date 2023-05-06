@@ -14,6 +14,6 @@ if (!user_id) {
 }
 
 // Define a key name for the store that includes the user ID
-const keyName = 'resumeObjects-${user_id}';
+export const keyName = 'resumeObjects-${user_id}';
 // Create a writable store that will be saved to local storage
 export const resumeStore: Writable<ResumeObject[]> = localStorageStore(keyName, []);
