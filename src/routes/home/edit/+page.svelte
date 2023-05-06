@@ -1,7 +1,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js" lang="ts">
 	import { Stepper, Step, InputChip } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
-	import type { Snapshot } from './$types';
+	// import type { Snapshot } from './$types';
 
 	import gptImage from '$lib/images/chatgptLogo.png';
 
@@ -47,6 +47,7 @@
 	}
 
 	//AI function
+	let loadingSuggestions = false;
 	async function fetchSuggestions() {
 		// console.log("Fetching new suggestions")
 
@@ -55,7 +56,7 @@
 			completionCount: String(3),
 			maxTokens: String(200)
 		});
-
+		loadingSuggestions = true;
 		// fetch the suggestions from the backend
 		const response = await fetch(`/api/getSuggestions?${queryParams}`);
 
@@ -71,6 +72,7 @@
 		for (let suggestion of data) {
 			suggestedSentences.push(suggestion);
 		}
+		loadingSuggestions = false;
 	}
 </script>
 
@@ -79,6 +81,7 @@
 
 	<div class="wrapStepper">
 		<Stepper>
+			<!-- Personal Information Step -->
 			<Step>
 				<svelte:fragment slot="header">Personal Information</svelte:fragment>
 				<div class="forms">
@@ -130,6 +133,7 @@
 				</div>
 			</Step>
 
+			<!-- Education Step -->
 			<Step>
 				<svelte:fragment slot="header">Education</svelte:fragment>
 
@@ -198,6 +202,7 @@
 				</div>
 			</Step>
 
+			<!-- Job Experience Step -->
 			<Step>
 				<svelte:fragment slot="header">Professional Experience</svelte:fragment>
 
@@ -304,6 +309,7 @@
 				</div>
 			</Step>
 
+			<!-- Programming Projects Step -->
 			<Step>
 				<svelte:fragment slot="header">Projects</svelte:fragment>
 
@@ -407,6 +413,7 @@
 				</div>
 			</Step>
 
+			<!-- Skills Step -->
 			<Step>
 				<svelte:fragment slot="header">Skills</svelte:fragment>
 
