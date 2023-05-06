@@ -6,7 +6,7 @@
 	// import Header from '$lib/components/Header.svelte';
 	// import { AppShell } from '@skeletonlabs/skeleton';
 
-	import { AppShell } from '@skeletonlabs/skeleton';
+	import { AppShell, LightSwitch, autoModeWatcher } from '@skeletonlabs/skeleton';
 	import logo from '$lib/images/mainlogo.png';
 
 	// Your selected Skeleton theme:
@@ -65,6 +65,7 @@
 			<ul>
 				<li><a href="/home">My resume</a></li>
 				<li><a href="/home/profile">My Profile</a></li>
+				<li><LightSwitch /></li>
 			</ul>
 		</nav>
 	</svelte:fragment>
