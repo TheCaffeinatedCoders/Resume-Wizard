@@ -18,6 +18,13 @@
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../../app.postcss';
+
+
+	import { onMount } from 'svelte';
+	// Call autoModeWatcher on component mount
+	onMount(() => {
+		autoModeWatcher();
+	});
 </script>
 
 <!-- <div class="flex" id="header">
@@ -47,6 +54,10 @@
 	<slot />
 </div> -->
 
+<svelte:head>
+	{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
+</svelte:head>
+
 <AppShell slotSidebarleft="w-0 md:w-52 bg-surface-500/10">
 	<svelte:fragment slot="sidebarLeft">
 		<div>
@@ -55,7 +66,8 @@
 			</div>
 			<p>
 				<span
-					class="text-3xl bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone">
+					class="text-3xl bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone"
+				>
 					Resume Wizard
 				</span>
 			</p>
