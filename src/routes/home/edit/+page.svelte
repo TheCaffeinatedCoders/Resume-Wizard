@@ -4,6 +4,15 @@
 	// import type { Snapshot } from './$types';
 
 	import gptImage from '$lib/images/chatgptLogo.png';
+	import { onMount } from 'svelte';
+	import { resumeStore, selectedResumeObjectIndex, addEmptyResumeObject } from '$lib/resumeStore';
+
+	onMount(() => {
+		if ($resumeStore.length == 0 || $selectedResumeObjectIndex == -1) {
+			addEmptyResumeObject();
+			selectedResumeObjectIndex.set($resumeStore.length - 1)
+		}
+	});
 
 	//PERSONAL INFORMATION section
 	let formData = {
@@ -32,8 +41,8 @@
 	let showSuggestion = true;
 
 	// the value of the description area (textarea)
-	let description = "I'm a genius";
-	let suggestedSentences = ["I'm genius number 1", "I'm genius number 2", "I'm genius number 3"];
+	let description = "Enter a project description here";
+	let suggestedSentences = ["", "", ""];
 
 	//skill section
 	let stackList: any = [];
