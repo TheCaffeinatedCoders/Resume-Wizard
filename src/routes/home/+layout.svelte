@@ -7,6 +7,7 @@
 	// import { AppShell } from '@skeletonlabs/skeleton';
 
 	import { AppShell, LightSwitch, autoModeWatcher } from '@skeletonlabs/skeleton';
+	import { DEBUG_resetResumeStore } from '$lib/resumeStore';
 	import logo from '$lib/images/mainlogo.png';
 
 	// Your selected Skeleton theme:
@@ -78,6 +79,7 @@
 				<li><a href="/home">My resume</a></li>
 				<li><a href="/home/profile">My Profile</a></li>
 				<li><LightSwitch /></li>
+				<li><button type="button" on:click={DEBUG_resetResumeStore}>DEBUG: Clear Resume Store</button></li>
 			</ul>
 		</nav>
 	</svelte:fragment>
