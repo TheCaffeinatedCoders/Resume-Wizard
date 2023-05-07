@@ -1,5 +1,20 @@
 <script>
 	import newDoc from '$lib/images/newDocument.png';
+	import { resumeStore, selectedResumeObjectIndex, addEmptyResumeObject } from '$lib/resumeStore';
+	import { goto } from '$app/navigation';
+
+	$: console.log($resumeStore);
+	$: console.log($selectedResumeObjectIndex);
+
+	function addNewResume() {
+		// Add a new resume to the resume store
+		addEmptyResumeObject();
+		// Set the selected resume to the newly added resume
+		$selectedResumeObjectIndex = $resumeStore.length - 1;
+		// Navigate to the edit page
+		goto('/home/edit');
+	}
+
 </script>
 
 <div class="w-full p-4">
@@ -68,17 +83,35 @@
 	<br />
 
 	<div class="flex flex-row flex-wrap space-x-9">
+		<!-- New Resume Card -->
 		<div
 			class="max-w-xs w-60 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
 		>
-			<a href="/home/edit">
+			<!-- <a href="/home/edit"> -->
+			<button type="button" on:click={addNewResume}>
 				<div class="ml-11 mt-6">
 					<img src={newDoc} alt="New Resume Icon" width="100" />
 					<p class="pt-3">New Resume</p>
 				</div>
-			</a>
+			</button>
+			<!-- </a> -->
 		</div>
 
+		<!-- Resume Cards -->
+		{#each $resumeStore as resume, index}
+			<div
+				class="max-w-xs w-60 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+			>
+				<!-- <a href="/home/edit"> -->
+					<div class="ml-11 mt-6">
+						<img src={newDoc} alt="Resume Icon" width="100" />
+						<p class="pt-3">Existing Resume</p>
+					</div>
+				<!-- </a> -->
+			</div>
+		{/each}
+
+		<!-- Sample tailwind card example -->
 		<div
 			class="max-w-xs p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
 		>
@@ -108,8 +141,8 @@
 						fill-rule="evenodd"
 						d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
 						clip-rule="evenodd"
-					/></svg
-				>
+					/>
+				</svg>
 			</a>
 		</div>
 	</div>
