@@ -1,14 +1,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js" lang="ts">
-	import {
-		Stepper,
-		Step,
-		InputChip,
-		ProgressRadial,
-		ListBox,
-		ListBoxItem
-	} from '@skeletonlabs/skeleton';
+	import { Stepper, Step, InputChip, ProgressRadial } from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
-	// import type { Snapshot } from './$types';
 
 	import gptImage from '$lib/images/chatgptLogo.png';
 	import { onMount } from 'svelte';
@@ -30,42 +22,12 @@
 		}
 	});
 
-	//PERSONAL INFORMATION section
-	// let formData = {
-	// 	name: '',
-	// 	phone: '',
-	// 	email: '',
-	// 	github: '',
-	// 	linkedin: ''
-	// };
-
-	// export const snapshot: Snapshot = {
-	// 	capture: () => formData,
-	// 	restore: (value) => (formData = value)
-	// };
-
-	//DATE sections
-	// let startDate = new Date();
-	// let endDate = new Date();
-	// let currentlyWorking = false; //when true, the end date will be disabled
-
 	// Degree dropdown table
 	// let selectedDegree = '1'; //index of the degree
 	let showCustomDegree = false; //when true, user can put their own customed degree which wasn't listed
 
 	// toggle to show the suggestion on the right side with 3 different options FROM AI generating description section
 	let showSuggestion = true;
-
-	// the value of the description area (textarea)
-	let description = 'Enter a project description here';
-	let suggestedSentences = ['', '', ''];
-
-	//skill section
-	let stackList: any = [];
-	let languagesList: any = [];
-	let frameworksList: any = [];
-	let toolsList: any = [];
-	let libaryList: any = [];
 
 	// TODO: Carson broke this, needs to be reworked
 	// $: {
@@ -74,13 +36,15 @@
 
 	//AI function
 	let loadingSuggestions = false;
-	async function fetchSuggestions() {
+	$: suggestedSentences = ['', '', ''];
+	async function fetchSuggestions(promptDescription: string) {
 		const queryParams = new URLSearchParams({
-			prompt: description,
+			prompt: promptDescription,
 			completionCount: String(3),
 			maxTokens: String(200)
 		});
 		loadingSuggestions = true;
+		suggestedSentences = ['', '', ''];
 		// fetch the suggestions from the backend
 		const response = await fetch(`/api/getSuggestions?${queryParams}`);
 		// parse the response into suggestedSentences
@@ -110,6 +74,29 @@
 	let selectedEducation: number = 0;
 	let selectedJob: number = 0;
 	let selectedProject: number = 0;
+
+	let educationStartDate: Date = new Date();
+	let educationEndDate: Date = new Date();
+	let jobStartDate: Date = new Date();
+	let jobEndDate: Date = new Date();
+	let projectStartDate: Date = new Date();
+	let projectEndDate: Date = new Date();
+
+	$: {
+		currentResumeObject.education[selectedEducation] =
+			currentResumeObject.education[selectedEducation];
+		currentResumeObject.jobs[selectedJob] = currentResumeObject.jobs[selectedJob];
+		currentResumeObject.projects[selectedProject] = currentResumeObject.projects[selectedProject];
+	}
+
+	$: {
+		currentResumeObject.education[selectedEducation].startDate = educationStartDate;
+		currentResumeObject.education[selectedEducation].endDate = educationEndDate;
+		currentResumeObject.jobs[selectedJob].startDate = jobStartDate;
+		currentResumeObject.jobs[selectedJob].endDate = jobEndDate;
+		currentResumeObject.projects[selectedProject].startDate = projectStartDate;
+		currentResumeObject.projects[selectedProject].endDate = projectEndDate;
+	}
 </script>
 
 <div class="body">
@@ -249,14 +236,18 @@
 					<div class="formEDDate">
 						<label class="label" for="Education Start Date">
 							<span>Start Date</span>
-							<!-- Currently buggy, the education start date model expects a current date function and not of type date. Needs to be fixed -->
-							<!-- <DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={currentResumeObject.education[selectedEducation].startDate} /> -->
-							<DateInput format="yyyy/MM/dd" />
+							<DateInput
+								format="yyyy/MM/dd"
+								bind:value={currentResumeObject.education[selectedEducation].startDate}
+							/>
 						</label>
 						<label class="label" for="Education End Date">
 							<span>End Date</span>
-							<!-- <DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={currentResumeObject.education[selectedEducation].endDate} /> -->
-							<DateInput format="yyyy/MM/dd" />
+							<DateInput
+								format="yyyy/MM/dd"
+								disabled={currentResumeObject.education[selectedEducation].currentlyAttending}
+								bind:value={currentResumeObject.education[selectedEducation].endDate}
+							/>
 						</label>
 
 						<div class="checkboxHeight">
@@ -323,13 +314,18 @@
 					<div class="formEDDate">
 						<label class="label" for="Job Start Date">
 							<span>Start Date</span>
-							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" />
+							<DateInput
+								format="yyyy/MM/dd"
+								placeholder="2000/31/12"
+								bind:value={currentResumeObject.jobs[selectedJob].startDate}
+							/>
 						</label>
 						<label class="label" for="Job End Date">
 							<span>End Date</span>
 							<DateInput
 								format="yyyy/MM/dd"
 								disabled={currentResumeObject.jobs[selectedJob].currentlyWorking}
+								bind:value={currentResumeObject.jobs[selectedJob].endDate}
 							/>
 						</label>
 
@@ -358,7 +354,7 @@
 							<button
 								class="chatgpt-button"
 								on:click={() => {
-									fetchSuggestions();
+									fetchSuggestions(currentResumeObject.jobs[selectedJob].description);
 									showSuggestion = !showSuggestion;
 								}}
 							>
@@ -430,7 +426,7 @@
 					on:click={() => currentResumeObject.projects.push(createEmptyProjectObject())}
 					>Add Project</button
 				>
-				<!-- Edit dropdown for each job object -->
+				<!-- Edit dropdown for each project object -->
 				<select class="select" bind:value={selectedProject}>
 					{#each currentResumeObject.projects as projectObject, index}
 						<option value={index}>{projectObject.name}</option>
@@ -461,7 +457,11 @@
 					<div class="formEDDate">
 						<label class="label" for="Project Start Date">
 							<span>Start Date</span>
-							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" />
+							<DateInput
+								format="yyyy/MM/dd"
+								placeholder="2000/31/12"
+								bind:value={currentResumeObject.projects[selectedProject].startDate}
+							/>
 						</label>
 
 						<label class="label" for="Project End Date">
@@ -469,6 +469,7 @@
 							<DateInput
 								format="yyyy/MM/dd"
 								disabled={currentResumeObject.projects[selectedProject].inProgress}
+								bind:value={currentResumeObject.projects[selectedProject].endDate}
 							/>
 						</label>
 
@@ -498,7 +499,7 @@
 								class="chatgpt-button"
 								on:click={() => {
 									showSuggestion = !showSuggestion;
-									fetchSuggestions();
+									fetchSuggestions(currentResumeObject.projects[selectedProject].description);
 								}}
 							>
 								<img src={gptImage} alt="ChatGPT" />
@@ -515,36 +516,41 @@
 							</div>
 							<div class="w-1/2 ml-10">
 								<div class="flex flex-col h-full">
-									<textarea
-										on:click={() => {
-											currentResumeObject.projects[selectedProject].description =
-												suggestedSentences[0];
-											showSuggestion = !showSuggestion;
-										}}
-										bind:value={suggestedSentences[0]}
-										class="textarea h-full mb-3"
-										placeholder="Enter some long form content."
-									/>
-									<textarea
-										on:click={() => {
-											currentResumeObject.projects[selectedProject].description =
-												suggestedSentences[1];
-											showSuggestion = !showSuggestion;
-										}}
-										bind:value={suggestedSentences[1]}
-										class="textarea h-full mb-3"
-										placeholder="Enter some long form content."
-									/>
-									<textarea
-										on:click={() => {
-											currentResumeObject.projects[selectedProject].description =
-												suggestedSentences[2];
-											showSuggestion = !showSuggestion;
-										}}
-										bind:value={suggestedSentences[2]}
-										class="textarea h-full"
-										placeholder="Enter some long form content."
-									/>
+									<!-- If loadingSuggestions -->
+									{#if loadingSuggestions}
+										<ProgressRadial value={undefined} />
+									{:else}
+										<button
+											type="button"
+											on:click={() => {
+												currentResumeObject.projects[selectedProject].description =
+													suggestedSentences[0];
+												showSuggestion = !showSuggestion;
+											}}
+											class="textarea h-full mb-3"
+											placeholder="Enter some long form content."
+										/>
+										<button
+											type="button"
+											on:click={() => {
+												currentResumeObject.projects[selectedProject].description =
+													suggestedSentences[1];
+												showSuggestion = !showSuggestion;
+											}}
+											class="textarea h-full mb-3"
+											placeholder="Enter some long form content."
+										/>
+										<button
+											type="button"
+											on:click={() => {
+												currentResumeObject.projects[selectedProject].description =
+													suggestedSentences[2];
+												showSuggestion = !showSuggestion;
+											}}
+											class="textarea h-full"
+											placeholder="Enter some long form content."
+										/>
+									{/if}
 								</div>
 							</div>
 						</div>
@@ -585,7 +591,7 @@
 						<label class="label" for="Libaries Used">
 							<span>Libraries</span>
 							<InputChip
-								bind:value={currentResumeObject.skills.libaries}
+								bind:value={currentResumeObject.skills.libraries}
 								name="chips"
 								placeholder="Enter any value..."
 							/>
