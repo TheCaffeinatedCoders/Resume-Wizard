@@ -78,7 +78,7 @@ export function createEmptySkillsObject(): SkillsObject {
     languages: [],
     frameworks: [],
     tools: [],
-    libaries: [],
+    libraries: [],
   };
 }
 
