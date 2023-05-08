@@ -1,20 +1,26 @@
-<script>
+<script lang='ts'>
 	import newDoc from '$lib/images/newDocument.png';
 	import { resumeStore, selectedResumeObjectIndex, addEmptyResumeObject } from '$lib/resumeStore';
 	import { goto } from '$app/navigation';
+	import { get } from 'svelte/store';
 
-	$: console.log($resumeStore);
-	$: console.log($selectedResumeObjectIndex);
+	$: console.log('Home page loaded resumeStore: ', $resumeStore);
+	$: console.log('Home page selectedResumeObjectIndex: ', $selectedResumeObjectIndex);
 
 	function addNewResume() {
 		// Add a new resume to the resume store
 		addEmptyResumeObject();
 		// Set the selected resume to the newly added resume
-		$selectedResumeObjectIndex = $resumeStore.length - 1;
+		// $selectedResumeObjectIndex = $resumeStore.length - 1;
+		selectedResumeObjectIndex.set(get(resumeStore).length - 1);
 		// Navigate to the edit page
 		goto('/home/edit');
 	}
-
+	function editExistingResume(index: number) {
+		selectedResumeObjectIndex.set(index);
+		// Navigate to the edit page
+		goto('/home/edit');
+	}
 </script>
 
 <div class="w-full p-4">
@@ -102,12 +108,12 @@
 			<div
 				class="max-w-xs w-60 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
 			>
-				<!-- <a href="/home/edit"> -->
+				<button type="button" on:click={() => editExistingResume(index)}>
 					<div class="ml-11 mt-6">
-						<img src={newDoc} alt="Resume Icon" width="100" />
-						<p class="pt-3">Existing Resume</p>
+						<img src={newDoc} alt="New Resume Icon" width="100" />
+						<p class="pt-3">Edit Resume: {index}</p>
 					</div>
-				<!-- </a> -->
+				</button>
 			</div>
 		{/each}
 

@@ -2,6 +2,8 @@ import { localStorageStore } from '@skeletonlabs/skeleton';
 import type { Writable } from 'svelte/store';
 import { get } from 'svelte/store';
 import { currentUser } from './pocketbase';
+import { goto } from '$app/navigation';
+import { create } from 'lodash';
 
 if (!currentUser) {
   throw new Error('currentUser is not defined');
@@ -24,8 +26,7 @@ export const selectedResumeObjectIndex = localStorageStore(selectedResumeObjectI
 
 export function createEmptyPersonalInfoObject(): PersonalInfoObject {
   return {
-    firstName: '',
-    lastName: '',
+    name: '',
     phoneNumber: '',
     email: '',
     address: '',
@@ -41,6 +42,7 @@ export function createEmptyEducationObject(): EducationObject {
   return {
     school: '',
     degree: '',
+    location: '',
     startDate: new Date(),
     endDate: new Date(),
     currentlyAttending: false,
@@ -52,6 +54,7 @@ export function createEmptyJobObject(): JobObject {
   return {
     company: '',
     position: '',
+    location: '',
     startDate: new Date(),
     endDate: new Date(),
     currentlyWorking: false,
@@ -64,6 +67,7 @@ export function createEmptyProjectObject(): ProjectObject {
     name: '',
     startDate: new Date(),
     endDate: new Date(),
+    inProgress: true,
     description: '',
     technologies: [],
   };
@@ -78,12 +82,39 @@ export function createEmptySkillsObject(): SkillsObject {
   };
 }
 
+export function createResumeMetadataObject(): ResumeMetadataObject {
+  return {
+    name: '',
+    createdDate: new Date(),
+    updatedDate: new Date(),
+  };
+}
+
+function createEmptyEducationObjectArray(): EducationObject[] {
+  let a = [];
+  a.push(createEmptyEducationObject());
+  return a;
+}
+
+function createEmptyJobObjectArray(): JobObject[] {
+  let a = [];
+  a.push(createEmptyJobObject());
+  return a;
+}
+
+function createEmptyProjectObjectArray(): ProjectObject[] {
+  let a = [];
+  a.push(createEmptyProjectObject());
+  return a;
+}
+
 export function createEmptyResumeObject(): ResumeObject {
   return {
+    resumeMetadata: createResumeMetadataObject(),
     personalInfo: createEmptyPersonalInfoObject(),
-    education: [],
-    jobs: [],
-    projects: [],
+    education: createEmptyEducationObjectArray(),
+    jobs: createEmptyJobObjectArray(),
+    projects: createEmptyProjectObjectArray(),
     skills: createEmptySkillsObject(),
   };
 }
@@ -110,4 +141,5 @@ export function updateResumeObject(index: number, newResumeObject: ResumeObject)
 export function DEBUG_resetResumeStore(): void {
   selectedResumeObjectIndex.set(-1);
   resumeStore.set([]);
+  goto('/home');
 }

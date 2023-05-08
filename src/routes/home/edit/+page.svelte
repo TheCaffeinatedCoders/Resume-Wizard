@@ -1,27 +1,43 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js" lang="ts">
-	import { Stepper, Step, InputChip, ProgressRadial } from '@skeletonlabs/skeleton';
+	import {
+		Stepper,
+		Step,
+		InputChip,
+		ProgressRadial,
+		ListBox,
+		ListBoxItem
+	} from '@skeletonlabs/skeleton';
 	import { DateInput } from 'date-picker-svelte';
 	// import type { Snapshot } from './$types';
 
 	import gptImage from '$lib/images/chatgptLogo.png';
 	import { onMount } from 'svelte';
-	import { resumeStore, selectedResumeObjectIndex, addEmptyResumeObject } from '$lib/resumeStore';
+	import { get } from 'svelte/store';
+	import {
+		resumeStore,
+		selectedResumeObjectIndex,
+		createEmptyEducationObject,
+		createEmptyJobObject,
+		createEmptyProjectObject,
+		addEmptyResumeObject
+	} from '$lib/resumeStore';
+	import { goto } from '$app/navigation';
 
 	onMount(() => {
 		if ($resumeStore.length == 0 || $selectedResumeObjectIndex == -1) {
 			addEmptyResumeObject();
-			selectedResumeObjectIndex.set($resumeStore.length - 1)
+			selectedResumeObjectIndex.set($resumeStore.length - 1);
 		}
 	});
 
 	//PERSONAL INFORMATION section
-	let formData = {
-		name: '',
-		phone: '',
-		email: '',
-		github: '',
-		linkedin: ''
-	};
+	// let formData = {
+	// 	name: '',
+	// 	phone: '',
+	// 	email: '',
+	// 	github: '',
+	// 	linkedin: ''
+	// };
 
 	// export const snapshot: Snapshot = {
 	// 	capture: () => formData,
@@ -29,20 +45,20 @@
 	// };
 
 	//DATE sections
-	let startDate = new Date();
-	let endDate = new Date();
-	let currentlyWorking = false; //when true, the end date will be disabled
+	// let startDate = new Date();
+	// let endDate = new Date();
+	// let currentlyWorking = false; //when true, the end date will be disabled
 
 	// Degree dropdown table
-	let selectedDegree = '1'; //index of the degree
+	// let selectedDegree = '1'; //index of the degree
 	let showCustomDegree = false; //when true, user can put their own customed degree which wasn't listed
 
 	// toggle to show the suggestion on the right side with 3 different options FROM AI generating description section
 	let showSuggestion = true;
 
 	// the value of the description area (textarea)
-	let description = "Enter a project description here";
-	let suggestedSentences = ["", "", ""];
+	let description = 'Enter a project description here';
+	let suggestedSentences = ['', '', ''];
 
 	//skill section
 	let stackList: any = [];
@@ -51,15 +67,14 @@
 	let toolsList: any = [];
 	let libaryList: any = [];
 
-	$: {
-		showCustomDegree = selectedDegree == '15';
-	}
+	// TODO: Carson broke this, needs to be reworked
+	// $: {
+	// 	showCustomDegree = selectedDegree == '15';
+	// }
 
 	//AI function
 	let loadingSuggestions = false;
 	async function fetchSuggestions() {
-		// console.log("Fetching new suggestions")
-
 		const queryParams = new URLSearchParams({
 			prompt: description,
 			completionCount: String(3),
@@ -68,21 +83,33 @@
 		loadingSuggestions = true;
 		// fetch the suggestions from the backend
 		const response = await fetch(`/api/getSuggestions?${queryParams}`);
-
 		// parse the response into suggestedSentences
-		// console.log("New suggestions fetched");
-		// console.log(response);
 		let data = await response.json();
-
-		// console.log(data);
-
 		suggestedSentences = [];
-
 		for (let suggestion of data) {
 			suggestedSentences.push(suggestion);
 		}
 		loadingSuggestions = false;
 	}
+
+	// Subscribe to resumeStore and log the value of the store to the console on change
+	// $: console.log("Edit Page Resume Store Value: ", $resumeStore);
+	// $: console.log("Edit Page Selected Resume Object Index: ", $selectedResumeObjectIndex);
+
+	// Get the current resume object from the resume store at the selected index
+	// This is a local variable that we can change, but it won't change the resume store
+	let currentResumeObject = get(resumeStore)[$selectedResumeObjectIndex];
+	if (currentResumeObject == undefined) {
+		goto('/home');
+	}
+	// Subscribe to currentResumeObject and update the resume store at the selected index with the current resume object on change
+	$: resumeStore.update((resumeStore) => {
+		resumeStore[$selectedResumeObjectIndex] = currentResumeObject;
+		return resumeStore;
+	});
+	let selectedEducation: number = 0;
+	let selectedJob: number = 0;
+	let selectedProject: number = 0;
 </script>
 
 <div class="body">
@@ -97,7 +124,7 @@
 					<label class="label" for="Name">
 						<span>Name</span>
 						<input
-							bind:value={formData.name}
+							bind:value={currentResumeObject.personalInfo.name}
 							type="text"
 							placeholder="Input"
 							class="input variant-form-material"
@@ -106,7 +133,7 @@
 					<label>
 						<span>Phone</span>
 						<input
-							bind:value={formData.phone}
+							bind:value={currentResumeObject.personalInfo.phoneNumber}
 							type="text"
 							placeholder="Input"
 							class="input variant-form-material"
@@ -115,7 +142,7 @@
 					<label class="label" for="Email">
 						<span>Email</span>
 						<input
-							bind:value={formData.email}
+							bind:value={currentResumeObject.personalInfo.email}
 							type="text"
 							placeholder="Input"
 							class="input variant-form-material"
@@ -124,7 +151,7 @@
 					<label class="label" for="Github URL">
 						<span>Github</span>
 						<input
-							bind:value={formData.github}
+							bind:value={currentResumeObject.personalInfo.github}
 							type="text"
 							placeholder="Input"
 							class="input variant-form-material"
@@ -133,7 +160,7 @@
 					<label class="label" for="Linkedin URL">
 						<span>Linkedin</span>
 						<input
-							bind:value={formData.linkedin}
+							bind:value={currentResumeObject.personalInfo.linkedin}
 							type="text"
 							placeholder="Input"
 							class="input variant-form-material"
@@ -145,20 +172,49 @@
 			<!-- Education Step -->
 			<Step>
 				<svelte:fragment slot="header">Education</svelte:fragment>
+				<button
+					class="button"
+					on:click={() => currentResumeObject.education.push(createEmptyEducationObject())}
+					>Add Education</button
+				>
+				<!-- Edit dropdown for each education object -->
+				<!-- <ListBox>
+					{#each currentResumeObject.education as educationObject, index}
+					<ListBoxItem bind:group={selectedEducation} name="medium" value={index}>{educationObject.school}</ListBoxItem>
+					{/each}
+				</ListBox> -->
+				<select class="select" bind:value={selectedEducation}>
+					{#each currentResumeObject.education as educationObject, index}
+						<option value={index}>{educationObject.school}</option>
+					{/each}
+				</select>
 
 				<div class="forms">
 					<div class="formEDBasic">
 						<label class="label" for="School Name">
 							<span>School name</span>
-							<input type="text" placeholder="Input" class="input variant-form-material" />
+							<input
+								type="text"
+								placeholder="Input"
+								class="input variant-form-material"
+								bind:value={currentResumeObject.education[selectedEducation].school}
+							/>
 						</label>
 						<label class="label" for="School Location">
 							<span>School Location</span>
-							<input type="text" placeholder="Input" class="input variant-form-material" />
+							<input
+								type="text"
+								placeholder="Input"
+								class="input variant-form-material"
+								bind:value={currentResumeObject.education[selectedEducation].location}
+							/>
 						</label>
 						<label class="label" for="Degree">
 							<span>Degree</span>
-							<select class="select" bind:value={selectedDegree}>
+							<select
+								class="select"
+								bind:value={currentResumeObject.education[selectedEducation].degree}
+							>
 								console.log(selectedDegree);
 								<option value="1">Bachelor of Arts</option>
 								<option value="2">Bacherlor of Science</option>
@@ -180,7 +236,12 @@
 						{#if showCustomDegree}
 							<label class="label" for="Custom Degree">
 								<span>Enter your degree</span>
-								<input type="text" placeholder="Input" class="input variant-form-material" />
+								<input
+									type="text"
+									placeholder="Input"
+									class="input variant-form-material"
+									bind:value={currentResumeObject.education[selectedEducation].degree}
+								/>
 							</label>
 						{/if}
 					</div>
@@ -188,11 +249,14 @@
 					<div class="formEDDate">
 						<label class="label" for="Education Start Date">
 							<span>Start Date</span>
-							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
+							<!-- Currently buggy, the education start date model expects a current date function and not of type date. Needs to be fixed -->
+							<!-- <DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={currentResumeObject.education[selectedEducation].startDate} /> -->
+							<DateInput format="yyyy/MM/dd" />
 						</label>
 						<label class="label" for="Education End Date">
 							<span>End Date</span>
-							<DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={endDate} />
+							<!-- <DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={currentResumeObject.education[selectedEducation].endDate} /> -->
+							<DateInput format="yyyy/MM/dd" />
 						</label>
 
 						<div class="checkboxHeight">
@@ -202,7 +266,7 @@
 									id="endDate"
 									name="endDate"
 									style="margin-right: 0.5rem"
-									bind:checked={currentlyWorking}
+									bind:checked={currentResumeObject.education[selectedEducation].currentlyAttending}
 								/>
 								I'm currently attending here
 							</label>
@@ -214,31 +278,59 @@
 			<!-- Job Experience Step -->
 			<Step>
 				<svelte:fragment slot="header">Professional Experience</svelte:fragment>
+				<button
+					class="button"
+					on:click={() => currentResumeObject.jobs.push(createEmptyJobObject())}>Add Job</button
+				>
+				<!-- Edit dropdown for each job object -->
+				<select class="select" bind:value={selectedJob}>
+					{#each currentResumeObject.jobs as jobObject, index}
+						<option value={index}>{jobObject.position}</option>
+					{/each}
+				</select>
 
 				<div class="forms">
 					<div class="formEDBasic">
 						<label class="label" for="Job Title">
-							<span>Job Title</span>
-							<input type="text" placeholder="Input" class="input variant-form-material" />
+							<span>Job Position</span>
+							<input
+								type="text"
+								placeholder="Input"
+								class="input variant-form-material"
+								bind:value={currentResumeObject.jobs[selectedJob].position}
+							/>
 						</label>
 						<label class="label" for="Company Title">
 							<span>Company</span>
-							<input type="text" placeholder="Input" class="input variant-form-material" />
+							<input
+								type="text"
+								placeholder="Input"
+								class="input variant-form-material"
+								bind:value={currentResumeObject.jobs[selectedJob].company}
+							/>
 						</label>
 						<label class="label" for="Company Location">
 							<span>Location</span>
-							<input type="text" placeholder="Input" class="input variant-form-material" />
+							<input
+								type="text"
+								placeholder="Input"
+								class="input variant-form-material"
+								bind:value={currentResumeObject.jobs[selectedJob].location}
+							/>
 						</label>
 					</div>
 
 					<div class="formEDDate">
 						<label class="label" for="Job Start Date">
 							<span>Start Date</span>
-							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
+							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" />
 						</label>
 						<label class="label" for="Job End Date">
 							<span>End Date</span>
-							<DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={endDate} />
+							<DateInput
+								format="yyyy/MM/dd"
+								disabled={currentResumeObject.jobs[selectedJob].currentlyWorking}
+							/>
 						</label>
 
 						<div class="checkboxHeight">
@@ -248,7 +340,7 @@
 									id="endDate"
 									name="endDate"
 									style="margin-right: 0.5rem"
-									bind:checked={currentlyWorking}
+									bind:checked={currentResumeObject.jobs[selectedJob].currentlyWorking}
 								/>
 								I'm currently working here
 							</label>
@@ -258,7 +350,7 @@
 					{#if showSuggestion}
 						<div class="textarea-container ">
 							<textarea
-								bind:value={description}
+								bind:value={currentResumeObject.jobs[selectedJob].description}
 								class="textarea h-96"
 								rows="20"
 								placeholder="Enter some long form content."
@@ -277,7 +369,7 @@
 						<div class="flex w-full h-96 mt-10">
 							<div class="w-1/2">
 								<textarea
-									bind:value={description}
+									bind:value={currentResumeObject.jobs[selectedJob].description}
 									class="textarea h-full"
 									placeholder="Enter some long form content."
 								/>
@@ -291,7 +383,7 @@
 										<button
 											type="button"
 											on:click={() => {
-												description = suggestedSentences[0];
+												currentResumeObject.jobs[selectedJob].description = suggestedSentences[0];
 												showSuggestion = !showSuggestion;
 											}}
 											class="textarea h-full mb-3"
@@ -302,7 +394,7 @@
 										<button
 											type="button"
 											on:click={() => {
-												description = suggestedSentences[1];
+												currentResumeObject.jobs[selectedJob].description = suggestedSentences[1];
 												showSuggestion = !showSuggestion;
 											}}
 											class="textarea h-full mb-3"
@@ -313,7 +405,7 @@
 										<button
 											type="button"
 											on:click={() => {
-												description = suggestedSentences[2];
+												currentResumeObject.jobs[selectedJob].description = suggestedSentences[2];
 												showSuggestion = !showSuggestion;
 											}}
 											class="textarea h-full"
@@ -333,27 +425,51 @@
 			<Step>
 				<svelte:fragment slot="header">Projects</svelte:fragment>
 
+				<button
+					class="button"
+					on:click={() => currentResumeObject.projects.push(createEmptyProjectObject())}
+					>Add Project</button
+				>
+				<!-- Edit dropdown for each job object -->
+				<select class="select" bind:value={selectedProject}>
+					{#each currentResumeObject.projects as projectObject, index}
+						<option value={index}>{projectObject.name}</option>
+					{/each}
+				</select>
+
 				<div class="forms">
 					<div class="formEDBasic">
 						<label class="label" for="Project Name">
 							<span>Project Name</span>
-							<input type="text" placeholder="Input" class="input variant-form-material" />
+							<input
+								type="text"
+								placeholder="Input"
+								class="input variant-form-material"
+								bind:value={currentResumeObject.projects[selectedProject].name}
+							/>
 						</label>
 						<label class="label" for="Tech stack used">
 							<span>Stack that used</span>
-							<InputChip bind:value={stackList} name="chips" placeholder="Enter any value..." />
+							<InputChip
+								bind:value={currentResumeObject.projects[selectedProject].technologies}
+								name="chips"
+								placeholder="Enter any value..."
+							/>
 						</label>
 					</div>
 
 					<div class="formEDDate">
 						<label class="label" for="Project Start Date">
 							<span>Start Date</span>
-							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={startDate} />
+							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" />
 						</label>
 
 						<label class="label" for="Project End Date">
 							<span>End Date</span>
-							<DateInput format="yyyy/MM/dd" disabled={currentlyWorking} bind:value={endDate} />
+							<DateInput
+								format="yyyy/MM/dd"
+								disabled={currentResumeObject.projects[selectedProject].inProgress}
+							/>
 						</label>
 
 						<div class="checkboxHeight">
@@ -363,7 +479,7 @@
 									id="projectInProgress"
 									name="projectInProcess"
 									style="margin-right: 0.5rem"
-									bind:checked={currentlyWorking}
+									bind:checked={currentResumeObject.projects[selectedProject].inProgress}
 								/>
 								I'm still working on this project
 							</label>
@@ -373,7 +489,7 @@
 					{#if showSuggestion}
 						<div class="textarea-container ">
 							<textarea
-								bind:value={description}
+								bind:value={currentResumeObject.projects[selectedProject].description}
 								class="textarea h-96"
 								rows="20"
 								placeholder="Enter some long form content."
@@ -392,7 +508,7 @@
 						<div class="flex w-full h-96 mt-10">
 							<div class="w-1/2">
 								<textarea
-									bind:value={description}
+									bind:value={currentResumeObject.projects[selectedProject].description}
 									class="textarea h-full"
 									placeholder="Enter some long form content."
 								/>
@@ -401,7 +517,8 @@
 								<div class="flex flex-col h-full">
 									<textarea
 										on:click={() => {
-											description = suggestedSentences[0];
+											currentResumeObject.projects[selectedProject].description =
+												suggestedSentences[0];
 											showSuggestion = !showSuggestion;
 										}}
 										bind:value={suggestedSentences[0]}
@@ -410,7 +527,8 @@
 									/>
 									<textarea
 										on:click={() => {
-											description = suggestedSentences[1];
+											currentResumeObject.projects[selectedProject].description =
+												suggestedSentences[1];
 											showSuggestion = !showSuggestion;
 										}}
 										bind:value={suggestedSentences[1]}
@@ -419,7 +537,8 @@
 									/>
 									<textarea
 										on:click={() => {
-											description = suggestedSentences[2];
+											currentResumeObject.projects[selectedProject].description =
+												suggestedSentences[2];
 											showSuggestion = !showSuggestion;
 										}}
 										bind:value={suggestedSentences[2]}
@@ -441,23 +560,35 @@
 					<div class="formEDBasic">
 						<label class="label" for="Programming Languages">
 							<span>Languages</span>
-							<InputChip bind:value={languagesList} name="chips" placeholder="Enter any value..." />
+							<InputChip
+								bind:value={currentResumeObject.skills.languages}
+								name="chips"
+								placeholder="Enter any value..."
+							/>
 						</label>
 						<label class="label" for="Frameworks Used">
 							<span>Frameworks</span>
 							<InputChip
-								bind:value={frameworksList}
+								bind:value={currentResumeObject.skills.frameworks}
 								name="chips"
 								placeholder="Enter any value..."
 							/>
 						</label>
 						<label class="label" for="Developer Tools Used">
 							<span>Developer Tools</span>
-							<InputChip bind:value={toolsList} name="chips" placeholder="Enter any value..." />
+							<InputChip
+								bind:value={currentResumeObject.skills.tools}
+								name="chips"
+								placeholder="Enter any value..."
+							/>
 						</label>
 						<label class="label" for="Libaries Used">
 							<span>Libraries</span>
-							<InputChip bind:value={libaryList} name="chips" placeholder="Enter any value..." />
+							<InputChip
+								bind:value={currentResumeObject.skills.libaries}
+								name="chips"
+								placeholder="Enter any value..."
+							/>
 						</label>
 					</div>
 				</div>

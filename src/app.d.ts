@@ -9,8 +9,7 @@ declare namespace App {
 }
 
 declare class PersonalInfoObject {
-	firstName: string
-	lastName: string
+	name: string
 	phoneNumber: string
 	email: string
 	address: string
@@ -24,6 +23,7 @@ declare class PersonalInfoObject {
 declare class EducationObject {
 	school: string
 	degree: string
+	location: string
 	startDate: Date
 	endDate: Date
 	currentlyAttending: boolean
@@ -33,6 +33,7 @@ declare class EducationObject {
 declare class JobObject {
 	company: string
 	position: string
+	location: string
 	startDate: Date
 	endDate: Date
 	currentlyWorking: boolean
@@ -43,6 +44,7 @@ declare class ProjectObject {
 	name: string
 	startDate: Date
 	endDate: Date
+	inProgress: boolean	
 	description: string
 	technologies: string[]
 }
@@ -54,7 +56,14 @@ declare class SkillsObject {
 	libaries: string[]
 }
 
+declare class ResumeMetadataObject {
+	name: string
+	createdDate: Date
+	updatedDate: Date
+}
+
 declare class ResumeObject {
+	resumeMetadata: ResumeMetadataObject
 	personalInfo: PersonalInfoObject
 	education: EducationObject[]
 	jobs: JobObject[]
