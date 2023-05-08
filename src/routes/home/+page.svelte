@@ -4,8 +4,8 @@
 	import { goto } from '$app/navigation';
 	import { get } from 'svelte/store';
 
-	$: console.log('Home page loaded resumeStore: ', $resumeStore);
-	$: console.log('Home page selectedResumeObjectIndex: ', $selectedResumeObjectIndex);
+	// $: console.log('Home page loaded resumeStore: ', $resumeStore);
+	// $: console.log('Home page selectedResumeObjectIndex: ', $selectedResumeObjectIndex);
 
 	function addNewResume() {
 		// Add a new resume to the resume store
