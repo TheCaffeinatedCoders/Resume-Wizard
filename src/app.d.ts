@@ -53,7 +53,7 @@ declare class SkillsObject {
 	languages: string[]
 	frameworks: string[]
 	tools: string[]
-	libaries: string[]
+	libraries: string[]
 }
 
 declare class ResumeMetadataObject {
