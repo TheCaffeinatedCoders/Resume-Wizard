@@ -15,10 +15,19 @@
 	} from '$lib/resumeStore';
 	import { goto } from '$app/navigation';
 
+	// Get the current resume object from the resume store at the selected index
+	// This is a local variable that we can change, but it won't change the resume store
+	let currentResumeObject = get(resumeStore)[$selectedResumeObjectIndex];
 	onMount(() => {
 		if ($resumeStore.length == 0 || $selectedResumeObjectIndex == -1) {
 			addEmptyResumeObject();
 			selectedResumeObjectIndex.set($resumeStore.length - 1);
+		}
+		// Check if we are running on the client-side before calling goto
+		if (typeof window !== 'undefined') {
+			if (currentResumeObject == undefined) {
+				goto('/home');
+			}
 		}
 	});
 
@@ -60,12 +69,6 @@
 	// $: console.log("Edit Page Resume Store Value: ", $resumeStore);
 	// $: console.log("Edit Page Selected Resume Object Index: ", $selectedResumeObjectIndex);
 
-	// Get the current resume object from the resume store at the selected index
-	// This is a local variable that we can change, but it won't change the resume store
-	let currentResumeObject = get(resumeStore)[$selectedResumeObjectIndex];
-	if (currentResumeObject == undefined) {
-		goto('/home');
-	}
 	// Subscribe to currentResumeObject and update the resume store at the selected index with the current resume object on change
 	$: resumeStore.update((resumeStore) => {
 		resumeStore[$selectedResumeObjectIndex] = currentResumeObject;
@@ -160,21 +163,23 @@
 			<Step>
 				<svelte:fragment slot="header">Education</svelte:fragment>
 				<button
-					class="button"
-					on:click={() => currentResumeObject.education.push(createEmptyEducationObject())}
-					>Add Education</button
+					type="button"
+					class="btn variant-filled"
+					on:click={() => {
+						currentResumeObject.education.push(createEmptyEducationObject());
+						currentResumeObject = { ...currentResumeObject };
+					}}
 				>
-				<!-- Edit dropdown for each education object -->
-				<!-- <ListBox>
-					{#each currentResumeObject.education as educationObject, index}
-					<ListBoxItem bind:group={selectedEducation} name="medium" value={index}>{educationObject.school}</ListBoxItem>
-					{/each}
-				</ListBox> -->
-				<select class="select" bind:value={selectedEducation}>
-					{#each currentResumeObject.education as educationObject, index}
-						<option value={index}>{educationObject.school}</option>
-					{/each}
-				</select>
+					Add Education
+				</button>
+				<label class="label" for="EducationSelector">
+					<span>Education Items:</span>
+					<select class="select" bind:value={selectedEducation}>
+						{#each currentResumeObject.education as educationObject, index}
+							<option value={index}>{educationObject.school}</option>
+						{/each}
+					</select>
+				</label>
 
 				<div class="forms">
 					<div class="formEDBasic">
@@ -270,15 +275,25 @@
 			<Step>
 				<svelte:fragment slot="header">Professional Experience</svelte:fragment>
 				<button
-					class="button"
-					on:click={() => currentResumeObject.jobs.push(createEmptyJobObject())}>Add Job</button
+					type="button"
+					class="btn variant-filled"
+					on:click={() => currentResumeObject.jobs.push(createEmptyJobObject())}
+					>Add Professional Experience</button
 				>
 				<!-- Edit dropdown for each job object -->
-				<select class="select" bind:value={selectedJob}>
+				<!-- <select class="select" bind:value={selectedJob}>
 					{#each currentResumeObject.jobs as jobObject, index}
 						<option value={index}>{jobObject.position}</option>
 					{/each}
-				</select>
+				</select> -->
+				<label class="label" for="Job Selector">
+					<span>Professional Experience Entries:</span>
+					<select class="select" bind:value={selectedJob}>
+						{#each currentResumeObject.jobs as jobObject, index}
+							<option value={index}>{jobObject.position}</option>
+						{/each}
+					</select>
+				</label>
 
 				<div class="forms">
 					<div class="formEDBasic">
@@ -422,16 +437,25 @@
 				<svelte:fragment slot="header">Projects</svelte:fragment>
 
 				<button
-					class="button"
+					type="button"
+					class="btn variant-filled"
 					on:click={() => currentResumeObject.projects.push(createEmptyProjectObject())}
 					>Add Project</button
 				>
 				<!-- Edit dropdown for each project object -->
-				<select class="select" bind:value={selectedProject}>
+				<!-- <select class="select" bind:value={selectedProject}>
 					{#each currentResumeObject.projects as projectObject, index}
 						<option value={index}>{projectObject.name}</option>
 					{/each}
-				</select>
+				</select> -->
+				<label class="label" for="Project Selector">
+					<span>Project Entries:</span>
+					<select class="select" bind:value={selectedProject}>
+						{#each currentResumeObject.projects as projectObject, index}
+							<option value={index}>{projectObject.name}</option>
+						{/each}
+					</select>
+				</label>
 
 				<div class="forms">
 					<div class="formEDBasic">
