@@ -20,7 +20,6 @@
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../../app.postcss';
 
-
 	import { onMount } from 'svelte';
 	// Call autoModeWatcher on component mount
 	onMount(() => {
@@ -79,7 +78,11 @@
 				<li><a href="/home">My resume</a></li>
 				<li><a href="/home/profile">My Profile</a></li>
 				<li><LightSwitch /></li>
-				<li><button type="button" on:click={DEBUG_resetResumeStore}>DEBUG: Clear Resume Store</button></li>
+				<li>
+					<button type="button" class="btn variant-filled" on:click={DEBUG_resetResumeStore}
+						>DEBUG: Clear Resume Store</button
+					>
+				</li>
 			</ul>
 		</nav>
 	</svelte:fragment>
