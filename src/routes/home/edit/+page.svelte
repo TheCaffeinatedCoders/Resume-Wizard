@@ -45,7 +45,7 @@
 
 	//AI function
 	let loadingSuggestions = false;
-	$: suggestedSentences = ['', '', ''];
+	$: suggestedSentences = ['Loading...', 'Loading...', 'Loading...'];
 	async function fetchSuggestions(promptDescription: string) {
 		const queryParams = new URLSearchParams({
 			prompt: promptDescription,
@@ -53,7 +53,6 @@
 			maxTokens: String(200)
 		});
 		loadingSuggestions = true;
-		suggestedSentences = ['', '', ''];
 		// fetch the suggestions from the backend
 		const response = await fetch(`/api/getSuggestions?${queryParams}`);
 		// parse the response into suggestedSentences
@@ -62,6 +61,7 @@
 		for (let suggestion of data) {
 			suggestedSentences.push(suggestion);
 		}
+		suggestedSentences = [...suggestedSentences];
 		loadingSuggestions = false;
 	}
 
@@ -168,6 +168,7 @@
 					on:click={() => {
 						currentResumeObject.education.push(createEmptyEducationObject());
 						currentResumeObject = { ...currentResumeObject };
+						selectedEducation = currentResumeObject.education.length - 1;
 					}}
 				>
 					Add Education
@@ -277,15 +278,13 @@
 				<button
 					type="button"
 					class="btn variant-filled"
-					on:click={() => currentResumeObject.jobs.push(createEmptyJobObject())}
-					>Add Professional Experience</button
+					on:click={() => {
+						currentResumeObject.jobs.push(createEmptyJobObject());
+						currentResumeObject = { ...currentResumeObject };
+						selectedJob = currentResumeObject.jobs.length - 1;
+					}}>Add Professional Experience</button
 				>
 				<!-- Edit dropdown for each job object -->
-				<!-- <select class="select" bind:value={selectedJob}>
-					{#each currentResumeObject.jobs as jobObject, index}
-						<option value={index}>{jobObject.position}</option>
-					{/each}
-				</select> -->
 				<label class="label" for="Job Selector">
 					<span>Professional Experience Entries:</span>
 					<select class="select" bind:value={selectedJob}>
@@ -439,15 +438,13 @@
 				<button
 					type="button"
 					class="btn variant-filled"
-					on:click={() => currentResumeObject.projects.push(createEmptyProjectObject())}
-					>Add Project</button
+					on:click={() => {
+						currentResumeObject.projects.push(createEmptyProjectObject());
+						currentResumeObject = { ...currentResumeObject };
+						selectedProject = currentResumeObject.projects.length - 1;
+					}}>Add Project</button
 				>
 				<!-- Edit dropdown for each project object -->
-				<!-- <select class="select" bind:value={selectedProject}>
-					{#each currentResumeObject.projects as projectObject, index}
-						<option value={index}>{projectObject.name}</option>
-					{/each}
-				</select> -->
 				<label class="label" for="Project Selector">
 					<span>Project Entries:</span>
 					<select class="select" bind:value={selectedProject}>
@@ -553,7 +550,9 @@
 											}}
 											class="textarea h-full mb-3"
 											placeholder="Enter some long form content."
-										/>
+										>
+											{suggestedSentences[0]}
+										</button>
 										<button
 											type="button"
 											on:click={() => {
@@ -563,7 +562,9 @@
 											}}
 											class="textarea h-full mb-3"
 											placeholder="Enter some long form content."
-										/>
+										>
+											{suggestedSentences[1]}
+										</button>
 										<button
 											type="button"
 											on:click={() => {
@@ -573,7 +574,9 @@
 											}}
 											class="textarea h-full"
 											placeholder="Enter some long form content."
-										/>
+										>
+											{suggestedSentences[2]}
+										</button>
 									{/if}
 								</div>
 							</div>
