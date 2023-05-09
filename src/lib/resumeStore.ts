@@ -40,7 +40,7 @@ export function createEmptyPersonalInfoObject(): PersonalInfoObject {
 
 export function createEmptyEducationObject(): EducationObject {
   return {
-    school: '',
+    school: '(New Education Item)',
     degree: '',
     location: '',
     startDate: new Date(),
@@ -53,7 +53,7 @@ export function createEmptyEducationObject(): EducationObject {
 export function createEmptyJobObject(): JobObject {
   return {
     company: '',
-    position: '',
+    position: '(New Job Item)',
     location: '',
     startDate: new Date(),
     endDate: new Date(),
@@ -64,7 +64,7 @@ export function createEmptyJobObject(): JobObject {
 
 export function createEmptyProjectObject(): ProjectObject {
   return {
-    name: '',
+    name: '(New Project Item)',
     startDate: new Date(),
     endDate: new Date(),
     inProgress: true,
