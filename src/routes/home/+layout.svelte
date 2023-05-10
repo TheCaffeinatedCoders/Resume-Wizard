@@ -6,10 +6,9 @@
 	// import Header from '$lib/components/Header.svelte';
 	// import { AppShell } from '@skeletonlabs/skeleton';
 
-	import { AppShell } from "@skeletonlabs/skeleton";
+	import { AppShell, LightSwitch, autoModeWatcher } from '@skeletonlabs/skeleton';
+	import { DEBUG_resetResumeStore } from '$lib/resumeStore';
 	import logo from '$lib/images/mainlogo.png';
-
-
 
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
@@ -20,6 +19,12 @@
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../../app.postcss';
+
+	import { onMount } from 'svelte';
+	// Call autoModeWatcher on component mount
+	onMount(() => {
+		autoModeWatcher();
+	});
 </script>
 
 <!-- <div class="flex" id="header">
@@ -49,10 +54,11 @@
 	<slot />
 </div> -->
 
+<svelte:head>
+	{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
+</svelte:head>
+
 <AppShell slotSidebarleft="w-0 md:w-52 bg-surface-500/10">
-
-
-
 	<svelte:fragment slot="sidebarLeft">
 		<div>
 			<div class="flex justify-center items-center">
@@ -61,17 +67,22 @@
 			<p>
 				<span
 					class="text-3xl bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone"
-					>Resume Wizard</span
 				>
-			</p>	
+					Resume Wizard
+				</span>
+			</p>
 		</div>
-
-
 
 		<nav class="list-nav p-4">
 			<ul>
 				<li><a href="/home">My resume</a></li>
 				<li><a href="/home/profile">My Profile</a></li>
+				<li><LightSwitch /></li>
+				<li>
+					<button type="button" class="btn variant-filled" on:click={DEBUG_resetResumeStore}
+						>DEBUG: Clear Resume Store</button
+					>
+				</li>
 			</ul>
 		</nav>
 	</svelte:fragment>
@@ -79,16 +90,13 @@
 	<div class="container p-10 mx-auto">
 		<slot />
 	</div>
-
 </AppShell>
 
-
-
 <style>
-	#nav-text {
+	/* #nav-text {
 		text-decoration: none;
 		color: white;
-	}
+	} */
 
 	/* #main {
 		padding: 2rem;
