@@ -197,11 +197,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	/* .loginMain {
-		background-image: url('$lib/images/loginBackground.jpg');
-		background-size: cover;
-		background-position: center;
-	} */
-</style>
