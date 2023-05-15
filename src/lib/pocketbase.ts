@@ -38,6 +38,22 @@ export const logout = () => {
   pb.authStore.clear();
 }
 
+export const sendVerifyEmail = async (email: string) => {
+  let requestVerificationResponse = await pb.collection('users').requestVerification(email).then((response) => { return response });
+}
+
+export const confirmVerifyEmail = async (token: string) => {
+  let confirmationVerificationResponse = await pb.collection('users').confirmVerification(token).then((response) => { return response });
+}
+
+export const requestPasswordReset = async (email: string) => {
+  let requestChangePasswordResponse = await pb.collection('users').requestPasswordReset(email).then((response) => { return response });
+}
+
+export const confirmChangePassword = async (token: string, newPassword: string, newPasswordConfirm: string) => {
+  let confirmChangePasswordResponse = await pb.collection('users').confirmPasswordReset(token, newPassword, newPasswordConfirm).then((response) => { return response });
+}
+
 // Function to sync the local storage with the database
 export const saveToPocketbase = async () => {
   // Get the current user
