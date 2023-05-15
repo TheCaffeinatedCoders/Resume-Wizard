@@ -5,6 +5,7 @@
 	import gptImage from '$lib/images/chatgptLogo.png';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import { currentUser, saveToPocketbase } from '$lib/pocketbase';
 	import {
 		resumeStore,
 		selectedResumeObjectIndex,
@@ -30,6 +31,14 @@
 			}
 		}
 	});
+
+	function syncWithCloud() {
+		// If logged in
+		if (get(currentUser)?.id) {
+			// Save the resume to the cloud
+			saveToPocketbase();
+		}
+	}
 
 	// Degree dropdown table
 	// let selectedDegree = '1'; //index of the degree
@@ -106,8 +115,8 @@
 	<h1>Edit your unique resume!</h1>
 
 	<div class="wrapStepper">
-		<Stepper>
-			<!-- Personal Information Step -->
+		<Stepper on:complete={syncWithCloud} on:next={syncWithCloud} on:back={syncWithCloud}>
+			<!-- Personal Information Step --> 
 			<Step>
 				<svelte:fragment slot="header">Personal Information</svelte:fragment>
 				<div class="forms">
