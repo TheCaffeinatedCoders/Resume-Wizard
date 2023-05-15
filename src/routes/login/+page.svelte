@@ -57,6 +57,7 @@
 
 	async function handleGoogleSignIn() {
 		const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+		const updateOAuthFlag = await pb.collection('users').update(authData.record.id, { isOAuth: true });
 		goto('/home'); // Add this line to redirect to the '/home' route
 	}
 
