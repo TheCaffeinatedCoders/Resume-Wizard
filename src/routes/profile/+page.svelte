@@ -2,10 +2,20 @@
 	import { logout } from '$lib/pocketbase';
 	import { redirect } from '@sveltejs/kit';
 	import { goto } from '$app/navigation';
+	import { get } from 'svelte/store';
+	import { currentUser } from '$lib/pocketbase';
+	import { onMount } from 'svelte';
 
 	let fullName = 'John Doe';
 	let userId = 'john_doe123';
 	let newPassword = '';
+
+	// On mount, if currentUser is not set, redirect to the '/login' route
+	onMount(() => {
+		if (!get(currentUser)) {
+			goto('/login');
+		}
+	});
 
 	function handleSignOut() {
 		// Add sign out logic here
