@@ -1,11 +1,18 @@
 <script lang="ts">
 	import { currentUser, pb } from '$lib/pocketbase';
-	import UserInfo from '$lib/components/UserInfo.svelte';
+	// import UserInfo from '$lib/components/UserInfo.svelte';
 	import { goto } from '$app/navigation';
 
 	let username: string;
 	let password: string;
 	let error: string;
+
+	// On mount, if currentUser is set, redirect to the '/profile' route
+	onMount(() => {
+		if ($currentUser) {
+			goto('/profile');
+		}
+	});	
 
 	async function login() {
 		try {
@@ -18,7 +25,7 @@
 			if (e.status === 400 || e.status === 405) {
 				// Display an error message to the user
 				error = "Invalid username or password";
-				console.log("Invalidd username or password")
+				console.log("Invalid username or password")
 			} else {
 				console.error(e);
 				// @ts-ignore
@@ -27,22 +34,22 @@
 		}
 	}
 
-	async function signUp() {
-		try {
-			const data = {
-				username,
-				password,
-				passwordConfirm: password
-			};
-			const createdUser = await pb.collection('users').create(data);
-			await login();
-			error = '';
-		} catch (e) {
-			console.error(e);
-			// @ts-ignore
-			error = JSON.stringify(e.data);
-		}
-	}
+	// async function signUp() {
+	// 	try {
+	// 		const data = {
+	// 			username,
+	// 			password,
+	// 			passwordConfirm: password
+	// 		};
+	// 		const createdUser = await pb.collection('users').create(data);
+	// 		await login();
+	// 		error = '';
+	// 	} catch (e) {
+	// 		console.error(e);
+	// 		// @ts-ignore
+	// 		error = JSON.stringify(e.data);
+	// 	}
+	// }
 
 	function signOut() {
 		pb.authStore.clear();
@@ -62,23 +69,19 @@
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../../app.postcss';
+	import { onMount } from 'svelte';
 </script>
 
 <svelte:head>
 	<!-- <link rel="stylesheet" href="/tutorial/dark-theme.css"> -->
 </svelte:head>
 
-<!-- {#if $currentUser}
-	<h1>Welcome, {$currentUser.username}!</h1>
-	<button on:click={signOut}>Sign Out</button>
-	<UserInfo />
-{:else} -->
 	<div class="loginMain min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
 		<div class="sm:mx-auto sm:w-full sm:max-w-md">
 			<h2 class="mt-6 text-center text-3xl font-extrabold ">Sign in to your account</h2>
 			<p class="mt-2 text-center text-sm max-w">
 				Or
-				<a href="#" class="font-medium text-blue-600 hover:text-blue-500"> create an account </a>
+				<a href="/signup" class="font-medium text-blue-600 hover:text-blue-500"> create an account </a>
 			</p>
 		</div>
 
@@ -163,7 +166,7 @@
 							>
 								<img
 									class="h-5 w-5"
-									src="https://www.svgrepo.com/show/512120/facebook-176.svg"
+									src="https://www.svgrepo.com/show/512317/github-142.svg"
 									alt=""
 								/>
 							</button>
@@ -174,7 +177,7 @@
 							>
 								<img
 									class="h-5 w-5"
-									src="https://www.svgrepo.com/show/513008/twitter-154.svg"
+									src="https://www.svgrepo.com/show/506463/discord.svg"
 									alt=""
 								/>
 							</button>
@@ -200,9 +203,9 @@
 {/if}
 
 <style>
-	.loginMain {
+	/* .loginMain {
 		background-image: url('$lib/images/loginBackground.jpg');
 		background-size: cover;
 		background-position: center;
-	}
+	} */
 </style>
