@@ -88,6 +88,7 @@
 						>
 					</li>
 				{:else}
+					<!-- <li><a href="/signup">Create Account</a></li> -->
 					<li><a href="/login">Login</a></li>
 				{/if}
 				<li><LightSwitch /></li>
