@@ -109,6 +109,11 @@
 		currentResumeObject.projects[selectedProject].startDate = projectStartDate;
 		currentResumeObject.projects[selectedProject].endDate = projectEndDate;
 	}
+
+	async function generateTestPDF() {
+		console.log("Generating a test pdf");
+		goto('/export/' + $selectedResumeObjectIndex);
+	}
 </script>
 
 <div class="body">
@@ -116,7 +121,7 @@
 
 	<div class="wrapStepper">
 		<Stepper on:complete={syncWithCloud} on:next={syncWithCloud} on:back={syncWithCloud}>
-			<!-- Personal Information Step --> 
+			<!-- Personal Information Step -->
 			<Step>
 				<svelte:fragment slot="header">Personal Information</svelte:fragment>
 				<div class="forms">
@@ -367,7 +372,7 @@
 					</div>
 
 					{#if showSuggestion}
-						<div class="textarea-container ">
+						<div class="textarea-container">
 							<textarea
 								bind:value={currentResumeObject.jobs[selectedJob].description}
 								class="textarea h-96"
@@ -518,7 +523,7 @@
 					</div>
 
 					{#if showSuggestion}
-						<div class="textarea-container ">
+						<div class="textarea-container">
 							<textarea
 								bind:value={currentResumeObject.projects[selectedProject].description}
 								class="textarea h-96"
@@ -636,6 +641,9 @@
 				</div>
 			</Step>
 		</Stepper>
+		<button type="button" class="btn variant-filled" on:click={generateTestPDF}
+			>Generate Test PDF</button
+		>
 	</div>
 </div>
 
