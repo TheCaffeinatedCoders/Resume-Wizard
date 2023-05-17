@@ -9,12 +9,12 @@
 
 	function addNewResume() {
 		// Add a new resume to the resume store
+		goto('/edit');
 		addEmptyResumeObject();
 		// Set the selected resume to the newly added resume
 		// $selectedResumeObjectIndex = $resumeStore.length - 1;
 		selectedResumeObjectIndex.set(get(resumeStore).length - 1);
 		// Navigate to the edit page
-		goto('/edit');
 	}
 	function editExistingResume(index: number) {
 		selectedResumeObjectIndex.set(index);
@@ -114,6 +114,7 @@
 						<p class="pt-3">Edit Resume: {index}</p>
 					</div>
 				</button>
+				<span>Delete {index}</span>
 			</div>
 		{/each}
 	</div>
