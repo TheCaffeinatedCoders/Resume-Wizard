@@ -114,7 +114,6 @@
 						<p class="pt-3">Edit Resume: {index}</p>
 					</div>
 				</button>
-				<span>Delete {index}</span>
 			</div>
 		{/each}
 	</div>
