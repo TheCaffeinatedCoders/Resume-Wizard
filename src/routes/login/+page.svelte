@@ -34,22 +34,6 @@
 		}
 	}
 
-	// async function signUp() {
-	// 	try {
-	// 		const data = {
-	// 			username,
-	// 			password,
-	// 			passwordConfirm: password
-	// 		};
-	// 		const createdUser = await pb.collection('users').create(data);
-	// 		await login();
-	// 		error = '';
-	// 	} catch (e) {
-	// 		console.error(e);
-	// 		// @ts-ignore
-	// 		error = JSON.stringify(e.data);
-	// 	}
-	// }
 
 	function signOut() {
 		pb.authStore.clear();
@@ -61,6 +45,20 @@
 			.collection('users')
 			.update(authData.record.id, { isOAuth: true });
 		goto('/home'); // Add this line to redirect to the '/home' route
+	}
+	async function handleDiscordSignIn() {
+		const authData = await pb.collection('users').authWithOAuth2({ provider: 'discord' });
+		const updateOAuthFlag = await pb
+			.collection('users')
+			.update(authData.record.id, { isOAuth: true });
+		goto('/home'); 
+	}
+	async function handleGithubSignIn() {
+		const authData = await pb.collection('users').authWithOAuth2({ provider: 'github' });
+		const updateOAuthFlag = await pb
+			.collection('users')
+			.update(authData.record.id, { isOAuth: true });
+		goto('/home'); 
 	}
 
 	// Your selected Skeleton theme:
@@ -171,6 +169,7 @@
 					<div>
 						<button
 							class="w-full flex items-center justify-center px-8 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+							on:click={handleGithubSignIn}
 						>
 							<img
 								class="h-5 w-5"
@@ -182,6 +181,7 @@
 					<div>
 						<button
 							class="w-full flex items-center justify-center px-8 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+							on:click={handleDiscordSignIn}
 						>
 							<img class="h-5 w-5" src="https://www.svgrepo.com/show/506463/discord.svg" alt="" />
 						</button>
