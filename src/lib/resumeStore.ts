@@ -3,26 +3,24 @@ import type { Writable } from 'svelte/store';
 import { get } from 'svelte/store';
 import { currentUser } from './pocketbase';
 import { goto } from '$app/navigation';
-import { create } from 'lodash';
 
-if (!currentUser) {
-  throw new Error('currentUser is not defined');
+
+let user_id = get(currentUser)?.id || 'GUEST';
+
+export let keyName = 'resumeObjects-' + user_id;
+export let resumeStore: Writable<ResumeObject[]> = localStorageStore(keyName, []);
+
+export let selectedResumeObjectIndexKeyName = 'selectedResumeObjectIndex-' + user_id;
+export let selectedResumeObjectIndex: Writable<number> = localStorageStore(selectedResumeObjectIndexKeyName, 0);
+
+export const refreshResumeStore = () => {
+  user_id = get(currentUser)?.id || 'GUEST';
+  keyName = 'resumeObjects-' + user_id;
+  resumeStore = localStorageStore(keyName, []);
+  selectedResumeObjectIndexKeyName = 'selectedResumeObjectIndex-' + user_id;
+  selectedResumeObjectIndex = localStorageStore(selectedResumeObjectIndexKeyName, 0);
 }
 
-let user_id = get(currentUser)?.id;
-
-if (!user_id) {
-  user_id = 'INVALID_USER_ID';
-}
-
-// Define a key name for the store that includes the user ID
-export const keyName = 'resumeObjects-' + user_id;
-// Create a writable store that will be saved to local storage
-export const resumeStore: Writable<ResumeObject[]> = localStorageStore(keyName, []);
-
-// Define a key name for the store that includes the user ID
-export const selectedResumeObjectIndexKeyName = 'selectedResumeObjectIndex-' + user_id;
-export const selectedResumeObjectIndex = localStorageStore(selectedResumeObjectIndexKeyName, 0);
 
 export function createEmptyPersonalInfoObject(): PersonalInfoObject {
   return {

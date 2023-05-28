@@ -9,6 +9,7 @@
 	import { AppShell, LightSwitch, autoModeWatcher } from '@skeletonlabs/skeleton';
 	import { DEBUG_resetResumeStore } from '$lib/resumeStore';
 	import logo from '$lib/images/mainlogo.png';
+	import { currentUser, saveToPocketbase } from '$lib/pocketbase';
 
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
@@ -18,10 +19,10 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
-	import '../../app.postcss';
+	import '../app.postcss';
 
 	import { onMount } from 'svelte';
-	// Call autoModeWatcher on component mount
+	// Call autoModeWatcher on component mount for light toggle
 	onMount(() => {
 		autoModeWatcher();
 	});
@@ -60,23 +61,36 @@
 
 <AppShell slotSidebarleft="w-0 md:w-52 bg-surface-500/10">
 	<svelte:fragment slot="sidebarLeft">
-		<div>
-			<div class="flex justify-center items-center">
-				<img src={logo} alt="Logo" width="100" height="100" />
+		<a href="/">
+			<div>
+				<div class="flex justify-center items-center">
+					<img src={logo} alt="Logo" width="100" height="100" />
+				</div>
+				<p>
+					<span
+						class="text-3xl bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone"
+					>
+						Resume Wizard
+					</span>
+				</p>
 			</div>
-			<p>
-				<span
-					class="text-3xl bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone"
-				>
-					Resume Wizard
-				</span>
-			</p>
-		</div>
+		</a>
 
 		<nav class="list-nav p-4">
 			<ul>
-				<li><a href="/home">My resume</a></li>
-				<li><a href="/home/profile">My Profile</a></li>
+				<li><a href="/home">View Resumes</a></li>
+				<!-- If CurrentUser -->
+				{#if $currentUser}
+					<li><a href="/profile">My Profile</a></li>
+					<li>
+						<button type="button" class="btn variant-filled" on:click={saveToPocketbase}
+							>Sync With Cloud</button
+						>
+					</li>
+				{:else}
+					<!-- <li><a href="/signup">Create Account</a></li> -->
+					<li><a href="/login">Login</a></li>
+				{/if}
 				<li><LightSwitch /></li>
 				<li>
 					<button type="button" class="btn variant-filled" on:click={DEBUG_resetResumeStore}

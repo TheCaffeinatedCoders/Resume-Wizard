@@ -5,6 +5,7 @@
 	import gptImage from '$lib/images/chatgptLogo.png';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import { currentUser, saveToPocketbase } from '$lib/pocketbase';
 	import {
 		resumeStore,
 		selectedResumeObjectIndex,
@@ -30,6 +31,14 @@
 			}
 		}
 	});
+
+	function syncWithCloud() {
+		// If logged in
+		if (get(currentUser)?.id) {
+			// Save the resume to the cloud
+			saveToPocketbase();
+		}
+	}
 
 	// Degree dropdown table
 	// let selectedDegree = '1'; //index of the degree
@@ -78,12 +87,12 @@
 	let selectedJob: number = 0;
 	let selectedProject: number = 0;
 
-	let educationStartDate: Date = new Date();
-	let educationEndDate: Date = new Date();
-	let jobStartDate: Date = new Date();
-	let jobEndDate: Date = new Date();
-	let projectStartDate: Date = new Date();
-	let projectEndDate: Date = new Date();
+	let educationStartDate: Date = new Date(currentResumeObject.education[selectedEducation].startDate);
+	let educationEndDate: Date = new Date(currentResumeObject.education[selectedEducation].endDate);
+	let jobStartDate: Date = new Date(currentResumeObject.jobs[selectedJob].startDate);
+	let jobEndDate: Date = new Date(currentResumeObject.jobs[selectedJob].endDate);
+	let projectStartDate: Date = new Date(currentResumeObject.projects[selectedProject].startDate);
+	let projectEndDate: Date = new Date(currentResumeObject.projects[selectedProject].endDate);
 
 	$: {
 		currentResumeObject.education[selectedEducation] =
@@ -100,13 +109,18 @@
 		currentResumeObject.projects[selectedProject].startDate = projectStartDate;
 		currentResumeObject.projects[selectedProject].endDate = projectEndDate;
 	}
+
+	async function generateTestPDF() {
+		console.log('Generating a test pdf');
+		goto('/export/' + $selectedResumeObjectIndex);
+	}
 </script>
 
 <div class="body">
 	<h1>Edit your unique resume!</h1>
 
 	<div class="wrapStepper">
-		<Stepper>
+		<Stepper on:complete={syncWithCloud} on:next={syncWithCloud} on:back={syncWithCloud}>
 			<!-- Personal Information Step -->
 			<Step>
 				<svelte:fragment slot="header">Personal Information</svelte:fragment>
@@ -242,17 +256,14 @@
 					<div class="formEDDate">
 						<label class="label" for="Education Start Date">
 							<span>Start Date</span>
-							<DateInput
-								format="yyyy/MM/dd"
-								bind:value={currentResumeObject.education[selectedEducation].startDate}
-							/>
+							<DateInput format="yyyy/MM/dd" bind:value={educationStartDate} />
 						</label>
 						<label class="label" for="Education End Date">
 							<span>End Date</span>
 							<DateInput
 								format="yyyy/MM/dd"
 								disabled={currentResumeObject.education[selectedEducation].currentlyAttending}
-								bind:value={currentResumeObject.education[selectedEducation].endDate}
+								bind:value={educationEndDate}
 							/>
 						</label>
 
@@ -328,18 +339,14 @@
 					<div class="formEDDate">
 						<label class="label" for="Job Start Date">
 							<span>Start Date</span>
-							<DateInput
-								format="yyyy/MM/dd"
-								placeholder="2000/31/12"
-								bind:value={currentResumeObject.jobs[selectedJob].startDate}
-							/>
+							<DateInput format="yyyy/MM/dd" placeholder="2000/31/12" bind:value={jobStartDate} />
 						</label>
 						<label class="label" for="Job End Date">
 							<span>End Date</span>
 							<DateInput
 								format="yyyy/MM/dd"
 								disabled={currentResumeObject.jobs[selectedJob].currentlyWorking}
-								bind:value={currentResumeObject.jobs[selectedJob].endDate}
+								bind:value={jobEndDate}
 							/>
 						</label>
 
@@ -358,7 +365,7 @@
 					</div>
 
 					{#if showSuggestion}
-						<div class="textarea-container ">
+						<div class="textarea-container">
 							<textarea
 								bind:value={currentResumeObject.jobs[selectedJob].description}
 								class="textarea h-96"
@@ -481,7 +488,7 @@
 							<DateInput
 								format="yyyy/MM/dd"
 								placeholder="2000/31/12"
-								bind:value={currentResumeObject.projects[selectedProject].startDate}
+								bind:value={projectStartDate}
 							/>
 						</label>
 
@@ -490,7 +497,7 @@
 							<DateInput
 								format="yyyy/MM/dd"
 								disabled={currentResumeObject.projects[selectedProject].inProgress}
-								bind:value={currentResumeObject.projects[selectedProject].endDate}
+								bind:value={projectEndDate}
 							/>
 						</label>
 
@@ -509,7 +516,7 @@
 					</div>
 
 					{#if showSuggestion}
-						<div class="textarea-container ">
+						<div class="textarea-container">
 							<textarea
 								bind:value={currentResumeObject.projects[selectedProject].description}
 								class="textarea h-96"
@@ -627,6 +634,9 @@
 				</div>
 			</Step>
 		</Stepper>
+		<button type="button" class="btn variant-filled" on:click={generateTestPDF}
+			>Generate Test PDF</button
+		>
 	</div>
 </div>
 
