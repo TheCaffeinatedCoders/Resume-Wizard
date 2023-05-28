@@ -15,6 +15,7 @@
 		addEmptyResumeObject
 	} from '$lib/resumeStore';
 	import { goto } from '$app/navigation';
+	import { generateResume } from '$lib/buildResume';
 
 	// Get the current resume object from the resume store at the selected index
 	// This is a local variable that we can change, but it won't change the resume store
@@ -110,9 +111,10 @@
 		currentResumeObject.projects[selectedProject].endDate = projectEndDate;
 	}
 
-	async function generateTestPDF() {
-		console.log('Generating a test pdf');
-		goto('/export/' + $selectedResumeObjectIndex);
+	async function saveResume() {
+		console.log('Saving a test pdf');
+		await generateResume($selectedResumeObjectIndex);
+		console.log('Finished saving a test pdf');
 	}
 </script>
 
@@ -120,7 +122,7 @@
 	<h1>Edit your unique resume!</h1>
 
 	<div class="wrapStepper">
-		<Stepper on:complete={syncWithCloud} on:next={syncWithCloud} on:back={syncWithCloud}>
+		<Stepper on:complete={saveResume} on:next={syncWithCloud} on:back={syncWithCloud}>
 			<!-- Personal Information Step -->
 			<Step>
 				<svelte:fragment slot="header">Personal Information</svelte:fragment>
@@ -634,7 +636,7 @@
 				</div>
 			</Step>
 		</Stepper>
-		<button type="button" class="btn variant-filled" on:click={generateTestPDF}
+		<button type="button" class="btn variant-filled" on:click={saveResume}
 			>Generate Test PDF</button
 		>
 	</div>
