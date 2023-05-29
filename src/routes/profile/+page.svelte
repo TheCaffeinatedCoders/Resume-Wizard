@@ -9,7 +9,7 @@
 		if (!get(currentUser)) {
 			goto('/login');
 		}
-		console.log(get(currentUser));
+		// console.log(get(currentUser));
 	});
 
 	function handleSignOut() {
