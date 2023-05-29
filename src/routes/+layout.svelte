@@ -9,7 +9,7 @@
 	import { AppShell, LightSwitch, autoModeWatcher } from '@skeletonlabs/skeleton';
 	import { DEBUG_resetResumeStore } from '$lib/resumeStore';
 	import logo from '$lib/images/mainlogo.png';
-	import { currentUser, saveToPocketbase } from '$lib/pocketbase';
+	import { currentUser, fetchFromPocketbase, saveToPocketbase } from '$lib/pocketbase';
 
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
@@ -83,8 +83,10 @@
 				{#if $currentUser}
 					<li><a href="/profile">My Profile</a></li>
 					<li>
-						<button type="button" class="btn variant-filled" on:click={saveToPocketbase}
-							>Sync With Cloud</button
+						<button type="button" class="btn variant-filled" on:click={saveToPocketbase}>Save To Cloud</button
+						>
+						<button type="button" class="btn variant-filled" on:click={fetchFromPocketbase}>
+							Fetch From Cloud</button
 						>
 					</li>
 				{:else}
