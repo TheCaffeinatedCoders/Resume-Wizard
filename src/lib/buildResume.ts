@@ -13,16 +13,14 @@ export let generateResume = (resumeIndex: number) => {
   
       const doc = new jsPDF();
       let yOffset = 10;
-  
+
       // Add Resume title
       doc.setFontSize(16);
-      doc.text('Resume Test', 105, yOffset, { align: 'center' });
-      yOffset += 20;
+      doc.text(resume.personalInfo.name, 105, yOffset, { align: 'center' });
   
       // Add Personal Information section
       doc.setFontSize(12);
-      doc.text(resume.personalInfo.name, 105, yOffset, { align: 'center' });
-      yOffset += 10;
+      yOffset += 20;
       doc.text(resume.personalInfo.email, 105, yOffset, { align: 'center' });
       yOffset += 10;
       doc.text(resume.personalInfo.phoneNumber, 105, yOffset, { align: 'center' });
@@ -30,8 +28,8 @@ export let generateResume = (resumeIndex: number) => {
       doc.text(resume.personalInfo.github, 105, yOffset, { align: 'center' });
       yOffset += 10;
       doc.text(resume.personalInfo.linkedin, 105, yOffset, { align: 'center' });
-      yOffset += 20;
-  
+      yOffset += 10;
+
       // Add horizontal line as divider
       doc.setLineWidth(0.5);
       doc.line(20, yOffset, 190, yOffset);
