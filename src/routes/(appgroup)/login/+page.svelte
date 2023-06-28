@@ -62,14 +62,14 @@
 	}
 
 	// Your selected Skeleton theme:
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+	// import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	// import '../theme.postcss';
 
 	// This contains the bulk of Skeletons required styles:
-	import '@skeletonlabs/skeleton/styles/all.css';
+	// import '@skeletonlabs/skeleton/styles/all.css';
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
-	import '../../app.postcss';
+	// import '../../app.postcss';
 	import { onMount } from 'svelte';
 </script>
 

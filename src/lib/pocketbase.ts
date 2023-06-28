@@ -16,12 +16,15 @@ export const currentUser = writable(pb.authStore.model)
 // Create a callback function that will run when the authStore changes
 // This will update the currentUser variable with the new authStore model
 pb.authStore.onChange((auth) => {
-  console.log('authStore changed', auth);
+  // console.log('authStore changed', auth);
   currentUser.set(pb.authStore.model)
-  console.log('currentUser', get(currentUser));
+  // console.log('currentUser', get(currentUser));
   // Refresh the resume store
   refreshResumeStore();
-  console.log('Refreshed resume store', get(resumeStore));
+  // console.log('Refreshed resume store', get(resumeStore));
+  if (get(currentUser)?.id != null) {
+    fetchFromPocketbase();
+  }
 })
 
 export const login = async (username_or_email: string, user_password: string) => {
@@ -72,5 +75,19 @@ export const saveToPocketbase = async () => {
   let recordResonse = await pb.collection('users').update(user.id, {
     userData: JSON.stringify(resumeObjects),
   });
-  console.log('Synced userData record:', recordResonse);
+  // console.log('Synced userData record:', recordResonse);
+}
+
+// Fetch from the database and update the local storage
+export const fetchFromPocketbase = async () => {
+  const user = get(currentUser);
+  if (user?.id == null) {
+    throw new Error('User is not logged in / No user id');
+  }
+  let recordResonse = await pb.collection('users').getOne(user.id);
+  if (recordResonse?.userData == null) {
+    throw new Error('userData is not defined');
+  }
+  let userData = recordResonse.userData;
+  resumeStore.set(userData);
 }
