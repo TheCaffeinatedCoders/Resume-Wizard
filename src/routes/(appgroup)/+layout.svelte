@@ -10,7 +10,7 @@
 	import { DEBUG_resetResumeStore } from '$lib/resumeStore';
 	import logo from '$lib/images/mainlogo.png';
 	import { currentUser, fetchFromPocketbase, saveToPocketbase } from '$lib/pocketbase';
-	import { page } from '$app/stores'
+	import { page } from '$app/stores';
 
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
@@ -95,6 +95,7 @@
 					<!-- <li><a href="/signup">Create Account</a></li> -->
 					<li><a href="/login">Login</a></li>
 				{/if}
+				<li><a href="https://github.com/TheCaffeinatedCoders/Resume-Wizard"> Github page </a></li>
 				<li><LightSwitch /></li>
 				<!-- <li>
 					<button type="button" class="btn variant-filled" on:click={DEBUG_resetResumeStore}
@@ -111,5 +112,4 @@
 </AppShell>
 
 <style>
-
 </style>
