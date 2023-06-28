@@ -6,7 +6,7 @@ import { resumeStore, refreshResumeStore } from './resumeStore';
 // Feel free to vist this link to see the database
 // http://45.56.90.168/_/
 // Ping Carson on discord if you need an account set up to view the database
-export const pb = new PocketBase('https://ResumeWizard.tech');
+export const pb = new PocketBase('https://pb.ResumeWizard.tech');
 
 // Current user variable is equal to a writable store, a svelte way of storing data
 // pb.authStore.model is the default object, which is equal to NULL when the user is not logged in
