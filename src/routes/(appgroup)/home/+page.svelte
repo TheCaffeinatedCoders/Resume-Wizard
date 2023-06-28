@@ -57,7 +57,7 @@
 </script>
 
 <div class="w-full p-4">
-	<form class="flex items-center">
+	<!-- <form class="flex items-center">
 		<label for="voice-search" class="sr-only">Search</label>
 		<div class="relative w-full">
 			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -115,7 +115,7 @@
 				/></svg
 			>Search
 		</button>
-	</form>
+	</form> -->
 
 	<br />
 	<br />

@@ -10,6 +10,7 @@
 	import { DEBUG_resetResumeStore } from '$lib/resumeStore';
 	import logo from '$lib/images/mainlogo.png';
 	import { currentUser, fetchFromPocketbase, saveToPocketbase } from '$lib/pocketbase';
+	import { page } from '$app/stores'
 
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
@@ -19,12 +20,13 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
-	import '../app.postcss';
+	import '../../app.postcss';
 
 	import { onMount } from 'svelte';
 	// Call autoModeWatcher on component mount for light toggle
 	onMount(() => {
 		autoModeWatcher();
+		// console.log('$page.url.pathname', $page.url.pathname);
 	});
 </script>
 
@@ -82,23 +84,23 @@
 				<!-- If CurrentUser -->
 				{#if $currentUser}
 					<li><a href="/profile">My Profile</a></li>
-					<li>
+					<!-- <li>
 						<button type="button" class="btn variant-filled" on:click={saveToPocketbase}>Save To Cloud</button
 						>
 						<button type="button" class="btn variant-filled" on:click={fetchFromPocketbase}>
 							Fetch From Cloud</button
 						>
-					</li>
+					</li> -->
 				{:else}
 					<!-- <li><a href="/signup">Create Account</a></li> -->
 					<li><a href="/login">Login</a></li>
 				{/if}
 				<li><LightSwitch /></li>
-				<li>
+				<!-- <li>
 					<button type="button" class="btn variant-filled" on:click={DEBUG_resetResumeStore}
 						>DEBUG: Clear Resume Store</button
 					>
-				</li>
+				</li> -->
 			</ul>
 		</nav>
 	</svelte:fragment>
@@ -109,20 +111,5 @@
 </AppShell>
 
 <style>
-	/* #nav-text {
-		text-decoration: none;
-		color: white;
-	} */
 
-	/* #main {
-		padding: 2rem;
-		height: 100vh; 
-	 background-image: radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
-			radial-gradient(at 80% 0%, hsla(189, 85%, 82%, 1) 0px, transparent 50%),
-			radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 1) 0px, transparent 50%),
-			radial-gradient(at 79% 50%, hsla(340, 28%, 82%, 1) 0px, transparent 50%),
-			radial-gradient(at 0% 100%, hsla(14, 53%, 78%, 1) 0px, transparent 50%),
-			radial-gradient(at 80% 100%, hsla(240, 62%, 76%, 1) 0px, transparent 50%),
-			radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
-	} */
 </style>

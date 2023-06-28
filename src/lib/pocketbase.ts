@@ -16,7 +16,7 @@ export const currentUser = writable(pb.authStore.model)
 // Create a callback function that will run when the authStore changes
 // This will update the currentUser variable with the new authStore model
 pb.authStore.onChange((auth) => {
-  console.log('authStore changed', auth);
+  // console.log('authStore changed', auth);
   currentUser.set(pb.authStore.model)
   // console.log('currentUser', get(currentUser));
   // Refresh the resume store

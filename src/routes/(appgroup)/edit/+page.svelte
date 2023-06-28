@@ -15,7 +15,6 @@
 		addEmptyResumeObject
 	} from '$lib/resumeStore';
 	import { goto } from '$app/navigation';
-	import { generateResume } from '$lib/buildResume';
 
 	// Get the current resume object from the resume store at the selected index
 	// This is a local variable that we can change, but it won't change the resume store
@@ -112,9 +111,12 @@
 	}
 
 	async function saveResume() {
-		console.log('Saving a test pdf');
-		await generateResume($selectedResumeObjectIndex);
-		console.log('Finished saving a test pdf');
+		// console.log('Saving a test pdf');
+		// await generateResume($selectedResumeObjectIndex);
+		// console.log('Finished saving a test pdf');
+
+		// Redirect to /export/selectedResumeObjectIndex
+		goto(`/export/${$selectedResumeObjectIndex}`);
 	}
 </script>
 
@@ -636,9 +638,9 @@
 				</div>
 			</Step>
 		</Stepper>
-		<button type="button" class="btn variant-filled" on:click={saveResume}
+		<!-- <button type="button" class="btn variant-filled" on:click={saveResume}
 			>Generate Test PDF</button
-		>
+		> -->
 	</div>
 </div>
 
