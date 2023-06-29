@@ -30,33 +30,6 @@
 	});
 </script>
 
-<!-- <div class="flex" id="header">
-	<aside
-		class="flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2"
-		style="height: 100vh"
-	>
-		<a
-			href="/home" 
-			class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
-			id="nav-text"
-		>
-			<span class="text-2xl"><i class="bx bx-home" /></span>
-			<span>My Resumes</span>
-		</a>
-
-		<a
-			href="/home/profile" 
-			class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
-			id="nav-text"
-		>
-			<span class="text-2xl"><i class="bx bx-user" /></span>
-			<span>My Profile</span>
-		</a>
-	</aside>
-
-	<slot />
-</div> -->
-
 
 
 <svelte:head>
