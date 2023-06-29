@@ -57,6 +57,8 @@
 	<slot />
 </div> -->
 
+
+
 <svelte:head>
 	{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
 </svelte:head>
@@ -68,15 +70,16 @@
 				<div class="flex justify-center items-center">
 					<img src={logo} alt="Logo" width="100" height="100" />
 				</div>
-				<p>
-					<span
-						class="text-3xl bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent box-decoration-clone"
-					>
-						Resume Wizard
-					</span>
-				</p>
 			</div>
 		</a>
+		<p>
+			<span
+				class="ml-7 text-3xl bg-gradient-to-br from-red-500 to-yellow-500 bg-clip-text text-transparent"
+			>
+				Resume Wizard
+			</span>
+		</p>
+
 
 		<nav class="list-nav p-4">
 			<ul>
@@ -85,10 +88,8 @@
 				{#if $currentUser}
 					<li><a href="/profile">My Profile</a></li>
 					<!-- <li>
-						<button type="button" class="btn variant-filled" on:click={saveToPocketbase}>Save To Cloud</button
-						>
-						<button type="button" class="btn variant-filled" on:click={fetchFromPocketbase}>
-							Fetch From Cloud</button
+						<button type="button" class="btn variant-filled" on:click={saveToPocketbase}
+							>Sync With Cloud</button
 						>
 					</li> -->
 				{:else}
@@ -112,4 +113,5 @@
 </AppShell>
 
 <style>
+
 </style>
