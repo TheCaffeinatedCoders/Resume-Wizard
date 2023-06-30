@@ -399,7 +399,9 @@
 								<div class="flex flex-col h-full">
 									<!-- If loadingSuggestions -->
 									{#if loadingSuggestions}
-										<ProgressRadial value={undefined} />
+										<div class="ml-48 mt-32">
+											<ProgressRadial value={undefined} />
+										</div>
 									{:else}
 										<button
 											type="button"
@@ -550,7 +552,9 @@
 								<div class="flex flex-col h-full">
 									<!-- If loadingSuggestions -->
 									{#if loadingSuggestions}
-										<ProgressRadial value={undefined} />
+																				<div class="ml-48 mt-32">
+											<ProgressRadial value={undefined} />
+										</div>
 									{:else}
 										<button
 											type="button"
