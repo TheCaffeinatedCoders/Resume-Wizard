@@ -129,6 +129,13 @@ export function removeResumeObject(index: number): void {
   });
 }
 
+// export function removeJobObject(index: number): void {
+//   resumeStore.update((resumeObjects) => {
+//     resumeObjects[index].jobs.splice(index, 1);
+//     return resumeObjects;
+//   });
+// }
+
 export function updateResumeObject(index: number, newResumeObject: ResumeObject): void {
   resumeStore.update((resumeObjects) => {
     resumeObjects[index] = newResumeObject;

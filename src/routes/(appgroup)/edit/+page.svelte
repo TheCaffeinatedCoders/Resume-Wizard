@@ -87,7 +87,9 @@
 	let selectedJob: number = 0;
 	let selectedProject: number = 0;
 
-	let educationStartDate: Date = new Date(currentResumeObject.education[selectedEducation].startDate);
+	let educationStartDate: Date = new Date(
+		currentResumeObject.education[selectedEducation].startDate
+	);
 	let educationEndDate: Date = new Date(currentResumeObject.education[selectedEducation].endDate);
 	let jobStartDate: Date = new Date(currentResumeObject.jobs[selectedJob].startDate);
 	let jobEndDate: Date = new Date(currentResumeObject.jobs[selectedJob].endDate);
@@ -299,6 +301,7 @@
 						selectedJob = currentResumeObject.jobs.length - 1;
 					}}>Add Professional Experience</button
 				>
+
 				<!-- Edit dropdown for each job object -->
 				<label class="label" for="Job Selector">
 					<span>Professional Experience Entries:</span>
@@ -442,6 +445,15 @@
 						</div>
 					{/if}
 				</div>
+				<button
+					type="button"
+					class="btn variant-filled-error"
+					on:click={() => {
+						currentResumeObject.jobs.splice(selectedJob, 1);
+						currentResumeObject = { ...currentResumeObject };
+						selectedJob = currentResumeObject.jobs.length - 1;
+					}}>Delete Current Professional Experience</button
+				>
 			</Step>
 
 			<!-- Programming Projects Step -->
@@ -484,6 +496,7 @@
 								bind:value={currentResumeObject.projects[selectedProject].technologies}
 								name="chips"
 								placeholder="Enter any value..."
+								allowUpperCase
 							/>
 						</label>
 					</div>
@@ -552,7 +565,7 @@
 								<div class="flex flex-col h-full">
 									<!-- If loadingSuggestions -->
 									{#if loadingSuggestions}
-																				<div class="ml-48 mt-32">
+										<div class="ml-48 mt-32">
 											<ProgressRadial value={undefined} />
 										</div>
 									{:else}
@@ -598,6 +611,18 @@
 						</div>
 					{/if}
 				</div>
+				
+			<button
+				type="button"
+				class="btn variant-filled-error"
+				on:click={() => {
+					currentResumeObject.projects.splice(selectedProject, 1);
+					currentResumeObject = { ...currentResumeObject };
+					selectedProject = currentResumeObject.projects.length - 1;
+				}}
+			>
+				Delete Current Project
+			</button>
 			</Step>
 
 			<!-- Skills Step -->
@@ -612,6 +637,7 @@
 								bind:value={currentResumeObject.skills.languages}
 								name="chips"
 								placeholder="Enter any value..."
+								allowUpperCase
 							/>
 						</label>
 						<label class="label" for="Frameworks Used">
@@ -620,6 +646,7 @@
 								bind:value={currentResumeObject.skills.frameworks}
 								name="chips"
 								placeholder="Enter any value..."
+								allowUpperCase
 							/>
 						</label>
 						<label class="label" for="Developer Tools Used">
@@ -628,6 +655,7 @@
 								bind:value={currentResumeObject.skills.tools}
 								name="chips"
 								placeholder="Enter any value..."
+								allowUpperCase
 							/>
 						</label>
 						<label class="label" for="Libaries Used">
@@ -636,6 +664,7 @@
 								bind:value={currentResumeObject.skills.libraries}
 								name="chips"
 								placeholder="Enter any value..."
+								allowUpperCase
 							/>
 						</label>
 					</div>
