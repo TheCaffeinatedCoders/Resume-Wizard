@@ -65,6 +65,9 @@
     }
   }
 
+
+
+
 </script>
 
 <!-- <h1>Export page</h1> -->
@@ -89,18 +92,25 @@
     <h2>Education</h2>
     {#each resumeData.education as educationItem}
     <div class="education">
-      <h3>{educationItem.school}</h3>
-      <p><strong>{educationItem.location}</strong></p>
-      <p><em>{numberToDegree(educationItem.degree)}</em></p>
-      <p class="right-align">
-        <em>
-          {#if educationItem.currentlyAttending}
-            Present
-          {:else}
-            {educationItem.endDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
-          {/if}
-        </em>
-      </p>
+
+      <div class="verticalAlign">
+        <h3>{educationItem.school}</h3>
+        <p>{educationItem.location}</p>
+      </div>
+      <div class="verticalAlign">
+        <p><em>{numberToDegree(educationItem.degree)}</em></p>
+        <p>
+          <em>
+            {#if educationItem.currentlyAttending}
+              Present
+            {:else}
+              {educationItem.startDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })} - 
+              {educationItem.endDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+            {/if}
+          </em>
+        </p>
+      </div>
+     
       <!-- <p>Description: {educationItem.description}</p> -->
     </div>
     {/each}
@@ -109,18 +119,29 @@
 	<section>
     <h2>Work Experience</h2>
     {#each resumeData.jobs as job}
-      <div class="job">
-        <h3>{job.company}</h3>
-        <p>Position: {job.position}</p>
-        <p>Location: {job.location}</p>
-        <p class="date">
-          {#if job.currentlyWorking}
-            Present
-          {:else}
-            {job.endDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
-          {/if}
-        </p>
-        <p>Description: {job.description}</p>
+      <div>
+        <div class="verticalAlign">
+          <h3>{job.company}</h3>
+          <p>{job.location}</p>
+        </div>
+        <div class="verticalAlign">
+          <p class="tI">{job.position}</p>
+          <p class="tI">
+            {#if job.currentlyWorking}
+              Present
+            {:else}
+              {job.startDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })} -
+              {job.endDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+            {/if}
+          </p>
+        </div>
+        <ul>
+          {#each job.description.split('. ') as sentence (sentence)}
+            {#if sentence}
+              <li>{sentence}.</li>
+            {/if}
+          {/each}
+        </ul>
       </div>
     {/each}
   </section>
@@ -128,18 +149,21 @@
 	<section>
 		<h2>Projects</h2>
 		{#each resumeData.projects as project}
-			<div class="project">
-				<h3>{project.name}</h3>
-				<p class="date">
+			<div class="verticalAlign">
+				<p><strong>{project.name}</strong> |
+          {@html project.technologies.map((tech, index) => `${tech}${index < project.technologies.length - 1 ? ', ' : ''}`).join('')}
+        </p>
+				<p class="tI">
 					{project.startDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })} - {project.inProgress ? 'Present' : project.endDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
 				</p>
-				<p>Description: {project.description}</p>
-				<ul>
-					{#each project.technologies as tech}
-						<li>{tech}</li>
-					{/each}
-				</ul>
 			</div>
+        <ul>
+          {#each project.description.split('. ') as sentence (sentence)}
+            {#if sentence}
+              <li>{sentence}.</li>
+            {/if}
+          {/each}
+        </ul>
 		{/each}
 	</section>
 
@@ -184,6 +208,36 @@
 </div>
 
 <style>
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    margin-bottom: 5px;
+  }
+
+  ul {
+    margin-top: 5px;
+    margin-left: 50px;
+  }
+
+  .verticalAlign {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-left: 20px;
+
+  }
+
+  .tI {
+    font-style: italic;
+  }
+
+
   .resume {
     font-family: Arial, sans-serif;
     padding: 20px;
@@ -209,13 +263,12 @@
 
   .resume header li {
     display: inline-block;
-    margin-right: 10px;
   }
 
   .resume header li::after {
     content: "|";
     margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 6px;
   }
 
   .resume header li:last-child::after {
@@ -254,7 +307,7 @@
     text-align: right;
   }
 
-  .job {
+  /* .job {
     margin-bottom: 20px;
   }
 
@@ -262,13 +315,6 @@
     font-weight: bold;
   }
 
-  .job p {
-    margin-bottom: 10px;
-  }
-
-  .job p:last-child {
-    margin-bottom: 0;
-  }
 
   .job .date {
     text-align: right;
@@ -290,13 +336,13 @@
 .project .date {
   text-align: right;
   font-style: italic;
-}
+} */
 
 .skills {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-gap: 10px;
+  margin-top: 25px;
 }
 
 .skills h3 {

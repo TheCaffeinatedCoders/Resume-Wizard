@@ -11,8 +11,6 @@
 	import { currentUser, saveToPocketbase } from '$lib/pocketbase';
 	import { writable } from 'svelte/store';
 
-	// $: console.log('Home page loaded resumeStore: ', $resumeStore);
-	// $: console.log('Home page selectedResumeObjectIndex: ', $selectedResumeObjectIndex);
 
 	function addNewResume() {
 		// Add a new resume to the resume store
