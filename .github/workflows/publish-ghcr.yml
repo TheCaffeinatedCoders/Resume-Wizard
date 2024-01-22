@@ -38,7 +38,7 @@ jobs:
         run: echo "${DOCKER_PASSWORD}" | docker login ghcr.io -u "${DOCKER_USERNAME}" --password-stdin
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_PASSWORD: ${{ secrets.GH_PAT }}
 
       - name: Push Docker Image to GitHub Container Registry
         run: docker push ghcr.io/thecaffeinatedcoders/resume-wizard:latest
