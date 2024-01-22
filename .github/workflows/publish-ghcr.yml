@@ -30,7 +30,7 @@ jobs:
       - name: Build Docker Image
         run: |
           echo "OPENAI_API_KEY=${OPENAI_API_KEY}" > .env
-          docker build -t ghcr.io/${{ github.repository_owner | lower }}/resume-wizard:latest .
+          docker build -t ghcr.io/thecaffeinatedcoders/resume-wizard:latest .
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
@@ -41,4 +41,4 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker Image to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository_owner | lower }}/resume-wizard:latest
+        run: docker push ghcr.io/thecaffeinatedcoders/resume-wizard:latest
