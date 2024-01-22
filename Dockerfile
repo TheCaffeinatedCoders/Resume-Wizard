@@ -1,3 +1,4 @@
+# Stage 1: Build
 FROM node:lts-slim as build
 
 WORKDIR /app
@@ -9,6 +10,7 @@ COPY . .
 RUN npm install
 RUN npm run build
 
+# Stage 2: Run
 FROM node:lts-slim as run
 
 WORKDIR /app
