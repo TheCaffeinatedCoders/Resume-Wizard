@@ -1,12 +1,14 @@
 import PocketBase from 'pocketbase';
 import { writable, get } from 'svelte/store';
 import { resumeStore, refreshResumeStore } from './resumeStore';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 
 // Creating a new pocketbase instance from our Lindoe server URL
 // Feel free to vist this link to see the database
 // http://45.56.90.168/_/
 // Ping Carson on discord if you need an account set up to view the database
-export const pb = new PocketBase('https://pb.ResumeWizard.tech');
+// export const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+export const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
 // Current user variable is equal to a writable store, a svelte way of storing data
 // pb.authStore.model is the default object, which is equal to NULL when the user is not logged in
