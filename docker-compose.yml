@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+  resumewizard:
+
+    # For a local build using included Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    # ports:
+    #   - "80:8080"
+    # environment:
+    #   - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+    # Pull latest image from github
+    image: ghcr.io/thecaffeinatedcoders/resume-wizard:latest
+    container_name: resumewizard
+    restart: unless-stopped
+    ports:
+      - "80:8080"  # Map port 80 on the host to port 8080 in the container
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PUBLIC_POCKETBASE_URL=http://127.0.0.1:81  # Use the service name and port defined in the pocketbase service
+    
+    
+
+  # Pull unofficial pocketbase image
+  pocketbase:
+    image: spectado/pocketbase:latest
+    container_name: pocketbase
+    restart: unless-stopped
+    ports:
+      - "81:80"  # Map port 81 on the host to port 80 in the container
+    volumes:
+      - /pb_data:/pb_data
+      - /pb_data:/pb_public
+    environment:
+      - PUBLIC_POCKETBASE_URL=http://127.0.0.1:81
