@@ -41,24 +41,51 @@ You can preview the production build with `npm run preview`.
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
 > We currently have the Node addapter installed and specilfied in svelte.config.js
 
-## Docker Production Deployment
-To build the docker image, first login to the docker registry:
-```bash
-docker login ghcr.io -u GITHUB_USERNAME
-```
-It will then ask for a password, this is not your github password, but a personal access token. To create a personal access token, go to your github settings, select Developer Settings, then Personal Access Tokens. Generate a new token with at least the `read:packages` and `write:packages` scope. Copy the token and use it as the password for the login command.
+## Docker Deployment
+Use the included docker-compose file:
 
-Once logged in, execute the build command to save the built image to the repository image registry:
-```bash
-docker build -t ghcr.io/thecaffeinatedcoders/resume-wizard:latest .
-```
+```yml
+version: '3.7'
+services:
+  resumewizard:
 
-Test the Docker image locally by running the container:
-```bash
-docker run -p 8080:8080 ghcr.io/thecaffeinatedcoders/resume-wizard:latest
-```
+    # For a local build using included Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    # ports:
+    #   - "80:8080"
+    # environment:
+    #   - OPENAI_API_KEY=${OPENAI_API_KEY}
 
-Once you have confirmed that the container works as expected, tag the Docker image with the GitHub Container Registry URL:
-```bash
-docker tag ghcr.io/thecaffeinatedcoders/resume-wizard:latest docker.pkg.github.com/thecaffeinatedcoders/resume-wizard/resume-wizard:latest
+    # Pull latest image from github
+    image: ghcr.io/thecaffeinatedcoders/resume-wizard:latest
+    container_name: resumewizard
+    restart: unless-stopped
+    ports:
+      - "80:8080"  # Map port 80 on the host to port 8080 in the container
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PUBLIC_POCKETBASE_URL=http://127.0.0.1:81  # Use the service name and port defined in the pocketbase service
+    
+    
+
+  # Pull unofficial pocketbase image
+  pocketbase:
+    image: spectado/pocketbase:latest
+    container_name: pocketbase
+    restart: unless-stopped
+    ports:
+      - "81:80"  # Map port 81 on the host to port 80 in the container
+    volumes:
+      - /pb_data:/pb_data
+      - /pb_data:/pb_public
+    environment:
+      - PUBLIC_POCKETBASE_URL=http://127.0.0.1:81
+
 ```
+Make sure that an OPENAI_API_KEY enviroment variable is defined in your shell or .env file with a valid OpenAI API key generated on their website [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys). 
+
+Also change PUBLIC_POCKETBASE_URL to a public url if exposing externally. Adjust pocketbase data volumes if necessary. 
+
+Deploy using `docker-compose up` to run both a pocketbase service and resumewizard node service. 
