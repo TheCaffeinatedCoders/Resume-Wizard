@@ -28,9 +28,12 @@ export const GET = async ({ url }) => {
         case 6: temps = [0.1, 0.2, 0.4, 0.6, 0.8, 1.0]; break;
     }
 
-    const completionPromises = temps.map(temp => openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: prompt,
+    const completionPromises = temps.map(temp => openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {"role": "system", "content": templatePrompt},
+            {"role": "user", "content": userDescription},
+        ],
         max_tokens: maxTokens,
         temperature: temp,
         n: 1,
@@ -40,7 +43,7 @@ export const GET = async ({ url }) => {
 
     completionResponses.forEach(response => {
         if (response.status == 200) {
-            suggestions.push(response.data.choices[0].text ?? "");
+            suggestions.push(response.data.choices[0].message?.content ?? "");
         }
     });
 

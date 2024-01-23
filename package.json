@@ -28,7 +28,7 @@
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
-		"openai": "^3.1.0",
+		"openai": "^3.3.0",
 		"postcss": "^8.4.14",
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^2.8.0",
@@ -54,7 +54,6 @@
 		"install": "^0.13.0",
 		"jspdf": "^2.5.1",
 		"npm": "^9.6.6",
-		"openai": "^3.1.0",
 		"pocketbase": "^0.14.3"
 	}
 }
