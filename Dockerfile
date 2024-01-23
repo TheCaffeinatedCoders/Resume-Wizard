@@ -4,8 +4,10 @@ FROM node:lts-slim as build
 WORKDIR /app
 
 ARG OPENAI_API_KEY
+ARG PUBLIC_POCKETBASE_URL
 # Set the OpenAI API key as an environment variable
 ENV OPENAI_API_KEY=${OPENAI_API_KEY}
+ENV PUBLIC_POCKETBASE_URL=${PUBLIC_POCKETBASE_URL}
 
 # Install packages
 COPY package*.json ./
