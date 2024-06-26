@@ -1,6 +1,34 @@
+
 # Resume Wizard
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Resume Wizard is a digital tool designed to simplify the creation of professional-quality resumes. Developed collaboratively, this tool leverages advanced technologies to help users produce stellar job experiences and project descriptions.
+
+## Features
+
+- **User-friendly Interface:** Easy-to-use interface for creating resumes.
+- **Customizable Templates:** Various templates to suit different styles and preferences.
+- **PDF Export:** Convert resumes to PDF format.
+- **AI Integration:** Utilizes the OpenAI API for intelligent suggestions to enhance resume content.
+- **Data Management:** Secure data storage and user authentication through PocketBase.
+
+## Technical Stack
+
+- **Frontend:** Built with Svelte for its concise syntax and powerful reactive features.
+- **Backend:** Managed with TypeScript to ensure robust type safety, scalability, and maintainability.
+- **AI Integration:** OpenAI API for personalized content suggestions.
+- **Data Management:** PocketBase for data storage and authentication.
+- **Hosting:** Deployed on Vercel for fast and reliable performance.
+
+## Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/)
+- [Docker](https://www.docker.com/)
+
+
 
 ## Developing
 
@@ -89,3 +117,35 @@ Make sure that an OPENAI_API_KEY enviroment variable is defined in your shell or
 Also change PUBLIC_POCKETBASE_URL to a public url if exposing externally. Adjust pocketbase data volumes if necessary. 
 
 Deploy using `docker-compose up` to run both a pocketbase service and resumewizard node service. 
+
+
+
+
+
+
+
+## Challenges and Learnings
+
+- **PDF Generation:** Initially chose Python for its existing libraries but faced integration issues with the front end. Switched to JavaScript for better compatibility and seamless API integration.
+- **API Integration:** Learned to navigate and effectively integrate the OpenAI API for enhanced resume content.
+- **Unified Design:** Led the front-end design effort using Figma to ensure a consistent and efficient design process.
+- **Backend Language Choice:** Faced conflicts in choosing the right backend language. Ultimately, JavaScript was chosen for its compatibility with necessary libraries and API integration.
+- **Svelte Directory Structure:** Encountered issues with pagination due to Svelte’s unique directory system. Future improvements would include a deeper understanding of Svelte’s structure from the beginning.
+
+## Acknowledgements
+
+- Powered by [Svelte](https://svelte.dev)
+- Data management facilitated by [PocketBase](https://pocketbase.io)
+- Deployed on [Vercel](https://vercel.com)
+
+## Devpost
+
+Further details are included in the [Devpost](https://devpost.com/software/wikigen)
+
+---
+
+Made with ❤️ by The Caffeinated Coders
+
+
+
+
